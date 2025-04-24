@@ -1,6 +1,6 @@
 from flask import jsonify
 from sqlalchemy import text
-from models import db
+from extensions import db
 
 def geral_routes(app):
     @app.route('/')

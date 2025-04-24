@@ -1,4 +1,4 @@
-from models import db
+from extensions import db
 from models.permissao import Permissao
 
 class Usuario(db.Model):
