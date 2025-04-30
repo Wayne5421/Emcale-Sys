@@ -16,15 +16,18 @@ export class LoginComponent {
   senha = '';
   erro = '';
 
+
+  mostrarSenha = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     this.authService.login(this.usuario, this.senha).subscribe({
       next: (res) => {
-        localStorage.setItem('token', res.token); // Salva o token
-        localStorage.setItem('nome_completo', res.nome_completo); // Nome do usuário
-        localStorage.setItem('permissao', res.permissao); // Permissão
-        this.router.navigate(['/home']); // Vai pra tela inicial
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('nome_completo', res.nome_completo); 
+        localStorage.setItem('permissao', res.permissao);
+        this.router.navigate(['/home']); 
       },
       error: (err) => {
         this.erro = err.error?.error || 'Erro ao fazer login';

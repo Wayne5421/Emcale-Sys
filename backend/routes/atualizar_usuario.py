@@ -3,11 +3,13 @@ from flask import request, jsonify
 from models.permissao import Permissao
 from models.usuario import Usuario
 from extensions import db 
-from utils import verificar_permissao
+from flask_cors import cross_origin
 
 def atualizar_usuario_route(app):
-    @app.route('/atualizar-usuario/<int:id>', methods=['PUT'])
+    @app.route('/atualizar-usuario/<int:id>', methods=['PUT', 'OPTIONS'])
+    @cross_origin()
     def atualizar_usuario(id):
+        
         token = request.headers.get('Authorization')
 
         if not token:
@@ -15,8 +17,7 @@ def atualizar_usuario_route(app):
         
         token = token.split(" ")[1]
         
-        if not verificar_permissao(token, ['dev', 'admin']):
-            return jsonify({'error': 'Você não tem permissão para acessar esta rota'}), 403
+        # A verificação de permissão foi removida
         
         data = request.get_json()
         

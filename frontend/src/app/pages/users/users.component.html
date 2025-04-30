@@ -1,0 +1,135 @@
+<div *ngIf="erro" class="alert-box">
+  {{ erro }}
+</div>
+
+<section class="container">
+  <h2>Lista de Usuários</h2>
+
+  <!-- Filtros -->
+  <div class="filters">
+    <mat-form-field appearance="fill" color="primary">
+      <mat-label>Permissão</mat-label>
+      <mat-select [(ngModel)]="selectedPermission" (selectionChange)="filterUsers()">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="dev">Dev</mat-option>
+        <mat-option value="default">Default</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" color="primary">
+      <mat-label>Busca</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchQuery"
+        (input)="filterUsers()"
+        placeholder="Nome ou usuário"
+      />
+    </mat-form-field>
+
+    <button 
+  *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'" 
+  class="new-user-button" 
+  (click)="abrirModalCriarUsuario()">
+  <i class="material-icons"><span><img src="icons/add-user.png" alt=""></span></i>
+  Novo Usuário
+</button>
+  </div>
+
+  <div class="users-grid">
+    <div *ngFor="let usuario of filteredUsers" 
+      class="user-card"
+      [class.clickable]="permissaoLogada === 'admin' || permissaoLogada === 'dev'">
+      <h3>{{ usuario.nome_completo }}</h3>
+      <p><strong>ID:</strong> {{ usuario.id }}</p>
+      <p><strong>Usuário:</strong> {{ usuario.usuario }}</p>
+      <p><strong>Permissão:</strong> {{ formatPermission(usuario.permissao) }}</p>
+      <div class="card-actions">
+        <button *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'" 
+          (click)="abrirModal(usuario)" 
+          class="update-button">
+          <i class="material-icons"><span><img src="icons/edit.png" alt=""></span></i>
+        </button>
+        <button *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'" 
+          (click)="confirmarDelecao(usuario.id, $event)" 
+          class="delete-button">
+          <i class="material-icons"><span><img src="icons/trash.png" alt=""></span></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModal">
+    <div class="modal">
+      <h2>Editar Usuário</h2>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput [(ngModel)]="usuarioSelecionado.nome_completo">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Usuário</mat-label>
+        <input matInput [(ngModel)]="usuarioSelecionado.usuario">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput [(ngModel)]="usuarioSelecionado.senha" type="password">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Permissão</mat-label>
+        <mat-select [(ngModel)]="usuarioSelecionado.permissao">
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="dev">Dev</mat-option>
+          <mat-option value="default">Default</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarAlteracoes()">Salvar</button>
+        <button mat-button color="warn" (click)="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay" *ngIf="mostrarModalCriar">
+    <div class="modal">
+      <h2>Criar Novo Usuário</h2>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput [(ngModel)]="novoUsuario.nome_completo">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Usuário</mat-label>
+        <input matInput [(ngModel)]="novoUsuario.usuario">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput [(ngModel)]="novoUsuario.senha" type="password">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Permissão</mat-label>
+        <mat-select [(ngModel)]="novoUsuario.permissao">
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="dev">Dev</mat-option>
+          <mat-option value="default">Default</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarNovoUsuario()">Salvar</button>
+        <button mat-button color="warn" (click)="fecharModalCriar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  
+
+  <p *ngIf="filteredUsers.length === 0" class="no-results">Nenhum usuário encontrado.</p>
+</section>

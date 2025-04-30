@@ -1,0 +1,19 @@
+<div class="layout">
+  <aside class="menu">
+    <div class="menu-inner">
+      <div class="menu-top">
+        <p class="menu-welcome">👋 Bem-vindo, {{ nome }}<br><br>  - {{ permissao }}</p>
+        <nav class="menu-nav">
+          <a class="menu-link" routerLink="/home" routerLinkActive="active">🏠 Home</a>
+          <a class="menu-link" routerLink="/users" routerLinkActive="active">👥 Usuários</a>
+        </nav>
+      </div>
+    </div>
+
+    <button class="logout-btn" (click)="logout()">⛔ Deslogar</button>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
