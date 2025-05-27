@@ -4,7 +4,29 @@
   --header-bg: #1e1e1e;
   --text-color: #f4f4f4;
   --button-bg: #444;
-  }
+
+  --alert-red: #f44336;
+  --alert-hover: #e53935;
+
+  --text-white: #ffffff;
+  --text-grey: #cccccc;
+
+  --card-dark: #1e1e1e;
+  --card-border: #333;
+
+  --update-btn: #337c99;
+  --update-btn-hover: #245aac;
+
+  --success-color: #4caf50;
+  --success-hover: #43a047;
+
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+
+  --modal-bg: rgb(44, 44, 44);
+  --option-hover: #333;
+}
+
   
   .dark-theme {
     --bg-color: #121212;

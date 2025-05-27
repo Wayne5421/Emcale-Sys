@@ -1,0 +1,118 @@
+<section class="container">
+  <h2>Lista de Técnicos</h2>
+
+  <div class="filters">
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-label>Buscar por nome</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="filterAndSortTecnicos()" />
+    </mat-form-field>
+
+    <button
+      *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'"
+      (click)="abrirModalCriar()"
+      class="new-tech-button"
+    >
+      Novo Técnico
+    </button>
+  </div>
+
+  <div class="technicians-grid">
+    <div
+      *ngFor="let tecnico of filteredTecnicos"
+      class="technician-card"
+      [class.clickable]="permissaoLogada === 'admin' || permissaoLogada === 'dev'"
+      (click)="abrirModalEditar(tecnico)"
+    >
+      <h3>{{ tecnico.nome }}</h3>
+      <p><strong>ID:</strong> {{ tecnico.id }}</p>
+      <p><strong>CPF:</strong> {{ tecnico.cpf }}</p>
+      <p><strong>RG:</strong> {{ tecnico.rg }}</p>
+      <p><strong>Telefone:</strong> {{ tecnico.telefone }}</p>
+      <p><strong>Serviços Prestados:</strong> {{ tecnico.servicos_prestados }}</p>
+
+      <div class="card-actions" *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'">
+        <button (click)="abrirModalEditar(tecnico); $event.stopPropagation()" class="update-button">
+          <img src="icons/edit.png" alt="Editar" />
+        </button>
+        <button (click)="confirmarDelecao(tecnico.id, $event)" class="delete-button">
+          <img src="icons/trash.png" alt="Deletar" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModalEditar">
+    <div class="modal">
+      <h2>Editar Técnico</h2>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="tecnicoSelecionado.nome" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>CPF</mat-label>
+        <input matInput [(ngModel)]="tecnicoSelecionado.cpf" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>RG</mat-label>
+        <input matInput [(ngModel)]="tecnicoSelecionado.rg" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Telefone</mat-label>
+        <input matInput [(ngModel)]="tecnicoSelecionado.telefone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Serviços Prestados</mat-label>
+        <textarea matInput [(ngModel)]="tecnicoSelecionado.servicos_prestados"></textarea>
+      </mat-form-field>
+
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarAlteracoes()">Salvar</button>
+        <button mat-button color="warn" (click)="fecharModalEditar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay" *ngIf="mostrarModalCriar">
+    <div class="modal">
+      <h2>Criar Novo Técnico</h2>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="novoTecnico.nome" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>CPF</mat-label>
+        <input matInput [(ngModel)]="novoTecnico.cpf" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>RG</mat-label>
+        <input matInput [(ngModel)]="novoTecnico.rg" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Telefone</mat-label>
+        <input matInput [(ngModel)]="novoTecnico.telefone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Serviços Prestados</mat-label>
+        <textarea matInput [(ngModel)]="novoTecnico.servicos_prestados"></textarea>
+      </mat-form-field>
+
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarNovoTecnico()">Criar</button>
+        <button mat-button color="warn" (click)="fecharModalCriar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="error" *ngIf="erro">{{ erro }}</p>
+</section>

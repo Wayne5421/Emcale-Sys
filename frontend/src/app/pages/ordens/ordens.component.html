@@ -1,0 +1,177 @@
+<section class="container">
+  <h2>Lista de Ordens de Serviço</h2>
+
+  <div class="filters">
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-label>Buscar</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="filterAndSortOrdens()" />
+    </mat-form-field>
+
+    <button
+      *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'"
+      (click)="abrirModalCriar()"
+      class="new-tech-button"
+    >
+      Nova Ordem de Serviço
+    </button>
+  </div>
+
+  <div *ngIf="filteredOrdens.length === 0 && !erro">
+    Nenhuma ordem de serviço encontrada.
+  </div>
+
+  <div class="orders-grid">
+  <div
+    *ngFor="let ordem of filteredOrdens"
+    class="order-card"
+    [ngClass]="{
+      'prazo-critico': isPrazoCritico(ordem.prazo),
+      'clickable': permissaoLogada === 'admin' || permissaoLogada === 'dev'
+    }"
+    (click)="abrirModalEditar(ordem)"
+  >
+      <h3>{{ ordem.wo_projeto }} (ID: {{ ordem.id }})</h3>
+      <p><strong>Cidade:</strong> {{ ordem.cidade }}</p>
+      <p><strong>Regional:</strong> {{ ordem.regional }}</p>
+      <p><strong>Escopo:</strong> {{ ordem.escopo }}</p>
+      <p><strong>Premissas:</strong> {{ ordem.premissas }}</p>
+      <p><strong>Data de Abertura:</strong> {{ ordem.data_abertura | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Prazo:</strong> {{ ordem.prazo | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Técnico:</strong> {{ ordem.nome_tecnico }}</p>
+
+      <p><strong>Faltam:</strong> {{ calcularDiasRestantes(ordem.prazo) }} dias</p>
+
+
+
+      <div class="card-actions" *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'">
+        <button (click)="abrirModalEditar(ordem); $event.stopPropagation()" class="update-button">
+          <img src="icons/edit.png" alt="Editar" />
+        </button>
+        <button (click)="confirmarDelecao(ordem.id, $event)" class="delete-button">
+          <img src="icons/trash.png" alt="Deletar" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModalEditar">
+    <div class="modal">
+      <h2>Editar Ordem de Serviço</h2>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>WO Projeto</mat-label>
+        <input matInput [(ngModel)]="ordemSelecionada.wo_projeto" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Cidade</mat-label>
+        <input matInput [(ngModel)]="ordemSelecionada.cidade" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Regional</mat-label>
+        <input matInput [(ngModel)]="ordemSelecionada.regional" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Escopo</mat-label>
+        <textarea matInput [(ngModel)]="ordemSelecionada.escopo"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Premissas</mat-label>
+        <textarea matInput [(ngModel)]="ordemSelecionada.premissas"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Data de Abertura</mat-label>
+        <input matInput [matDatepicker]="pickerAberturaEdit" [(ngModel)]="ordemSelecionada.data_abertura">
+        <mat-datepicker-toggle matSuffix [for]="pickerAberturaEdit"></mat-datepicker-toggle>
+        <mat-datepicker #pickerAberturaEdit></mat-datepicker>
+      </mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Prazo</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="ordemSelecionada.prazo" />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Técnico</mat-label>
+        <mat-select [(ngModel)]="ordemSelecionada.id_tecnico">
+          <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
+            {{ tecnico.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarAlteracoes()">Salvar</button>
+        <button mat-button color="warn" (click)="fecharModalEditar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModalCriar">
+    <div class="modal">
+      <h2>Criar Nova Ordem de Serviço</h2>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>WO Projeto</mat-label>
+        <input matInput [(ngModel)]="novaOrdem.wo_projeto" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Cidade</mat-label>
+        <input matInput [(ngModel)]="novaOrdem.cidade" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Regional</mat-label>
+        <input matInput [(ngModel)]="novaOrdem.regional" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Escopo</mat-label>
+        <textarea matInput [(ngModel)]="novaOrdem.escopo"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Premissas</mat-label>
+        <textarea matInput [(ngModel)]="novaOrdem.premissas"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Data de Abertura</mat-label>
+        <input matInput [matDatepicker]="pickerAberturaCriar" [(ngModel)]="novaOrdem.data_abertura">
+        <mat-datepicker-toggle matSuffix [for]="pickerAberturaCriar"></mat-datepicker-toggle>
+        <mat-datepicker #pickerAberturaCriar></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Prazo</mat-label>
+        <input matInput [matDatepicker]="pickerPrazoCriar" [(ngModel)]="novaOrdem.prazo">
+        <mat-datepicker-toggle matSuffix [for]="pickerPrazoCriar"></mat-datepicker-toggle>
+        <mat-datepicker #pickerPrazoCriar></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Técnico</mat-label>
+        <mat-select [(ngModel)]="novaOrdem.id_tecnico">
+          <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
+            {{ tecnico.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="modal-actions">
+        <button mat-button color="primary" (click)="salvarNovaOrdem()">Criar</button>
+        <button mat-button color="warn" (click)="fecharModalCriar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="error" *ngIf="erro">{{ erro }}</p>
+</section>

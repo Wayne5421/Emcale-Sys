@@ -1,34 +1,36 @@
-<div class="login">
-  <div class="h1">Login</div>
+<div class="login-wrapper">
+  <div class="login-card">
+    <h1 class="login-title">Bem-vindo</h1>
 
-  <form (ngSubmit)="login()">
-    <input
-      placeholder="Usuário"
-      type="text"
-      id="usuario"
-      name="usuario"
-      [(ngModel)]="usuario"
-      required
-    />
-
-    <div class="password-wrapper">
+    <form (ngSubmit)="login()" class="login-form">
       <input
-        [type]="mostrarSenha ? 'text' : 'password'"
-        placeholder="Senha"
-        id="senha"
-        name="senha"
-        [(ngModel)]="senha"
+        placeholder="Usuário"
+        type="text"
+        id="usuario"
+        name="usuario"
+        [(ngModel)]="usuario"
         required
       />
 
-    </div>
+      <div class="password-wrapper">
+        <input
+          [type]="mostrarSenha ? 'text' : 'password'"
+          placeholder="Senha"
+          id="senha"
+          name="senha"
+          [(ngModel)]="senha"
+          required
+        />
 
-    <!-- <button class="eye-icon" (click)="mostrarSenha = !mostrarSenha">
-        Mostrar senha
-    </button> -->
+      </div>
 
-    <input type="submit" value="Entrar" class="btn" />
-  </form>
+        <button type="button" class="eye-button" (click)="toggleMostrarSenha()">
+          <i class="fa-regular fa-eye{{ mostrarSenha ? '' : '-slash' }}"></i>
+        </button>
 
-  <p *ngIf="erro" class="error-message">{{ erro }}</p>
+      <button type="submit" class="btn">Entrar</button>
+    </form>
+
+    <p *ngIf="erro" class="error-message">{{ erro }}</p>
+  </div>
 </div>

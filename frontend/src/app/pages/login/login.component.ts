@@ -4,7 +4,6 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +15,6 @@ export class LoginComponent {
   senha = '';
   erro = '';
 
-
   mostrarSenha = false;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -25,13 +23,17 @@ export class LoginComponent {
     this.authService.login(this.usuario, this.senha).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
-        localStorage.setItem('nome_completo', res.nome_completo); 
+        localStorage.setItem('nome_completo', res.nome_completo);
         localStorage.setItem('permissao', res.permissao);
-        this.router.navigate(['/home']); 
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.erro = err.error?.error || 'Erro ao fazer login';
       }
     });
+  }
+
+  toggleMostrarSenha() {
+    this.mostrarSenha = !this.mostrarSenha;
   }
 }

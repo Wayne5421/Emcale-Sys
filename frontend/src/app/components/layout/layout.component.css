@@ -15,7 +15,6 @@
   color: #000;
 }
 
-/* Inner menu for top content (scrollable if needed) */
 .menu-inner {
   flex-grow: 1;
   overflow-y: auto;

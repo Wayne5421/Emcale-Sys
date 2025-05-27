@@ -1,81 +1,160 @@
-.login {
-  width: 340px;
-  margin: 5rem auto;
-  background: #2c2c2c;
-  padding: 47px;
-  color: #fff;
-  border-radius: 17px;
-  font-size: 1.3em;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: linear-gradient(120deg, #0f0f0f, #1e1e1e, #0f0f0f);
+  background-size: 300% 300%;
+  animation: gradientBG 10s ease infinite;
+  display: flex; /* Mantém o flexbox para centralizar */
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.h1 {
-  text-align: center;
-  font-size: 1.5em;
-  margin-bottom: 1rem;
-  animation: bounce2 0.8s;
-}
-
-.login input[type="text"],
-.login input[type="password"] {
-  display: block;
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  border: none;
-  outline: none;
-  padding: 13px 18px;
-  margin-top: 20px;
-  font-size: 0.8em;
-  border-radius: 100px;
-  background: #3c3c3c;
+  height: 100%;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  width: 360px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  animation: fadeIn 1.2s ease;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+}
+
+.login-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.login-form {
+  display: flex; 
+  flex-direction: column; 
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: calc(100% - 40px); /* Ajusta a largura para o botão */
+  padding: 12px 16px;
+  margin-bottom: 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.login-form input::placeholder {
+  color: #ccc;
+}
+
+.login-form input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  outline: none;
 }
 
 .password-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem; /* Adiciona margem inferior para separar do botão Entrar */
 }
 
-.password-wrapper .eye-icon {
+.eye-button {
   position: absolute;
+  right: 10px;
   top: 50%;
-  right: 20px;
   transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
   cursor: pointer;
-  font-size: 1.2em;
-  user-select: none;
+  outline: none;
 }
 
-.login input[type="submit"],
+.eye-icon {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
 .btn {
-  background-color:white ;
-  color: black;
-  padding: 16px !important;
   width: 100%;
+  padding: 12px;
   border: none;
-  border-radius: 500px;
-  font-weight: 600;
-  margin-top: 40px;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #fff, #ccc);
+  color: #000;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  animation: bounce2 0.8s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn:hover {
-  background: #2c2c2c;
-  transition: all 0.4s ease;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
 }
 
 .error-message {
-  color: red;
-  margin-top: 1rem;
+  color: #ff6b6b;
   text-align: center;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
 }
 
-@keyframes bounce2 {
-  0% {
+.eye-button{
+  color: white;
+  font-size: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
-  }
-  70% {
     transform: translateY(-20px);
-    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-card {
+    width: 80%;
+    padding: 2rem;
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+  }
+}
+
+
