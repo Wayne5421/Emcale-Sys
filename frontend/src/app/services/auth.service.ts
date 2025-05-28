@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = "http://localhost:5000";
+  private apiUrl = "https://emcale-erp.onrender.com";
 
 
 

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
 
-  private apiUrl = "http://localhost:5000";  
+  private apiUrl = "https://emcale-erp.onrender.com";
 
   constructor(private http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class DataService {
 
 
   atualizarUsuario(id: number, dados: any, token: string) {
-    return this.http.put<any>(`http://localhost:5000/atualizar-usuario/${id}`, dados, {
+    return this.http.put<any>(`${this.apiUrl}/atualizar-usuario/${id}`, dados, {
       headers: { Authorization: `Bearer ${token}` }
     });
   }
