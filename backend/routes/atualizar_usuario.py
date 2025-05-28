@@ -1,4 +1,3 @@
-# backend/routes/atualizar_usuario.py
 from flask import request, jsonify
 from models.permissao import Permissao
 from models.usuario import Usuario

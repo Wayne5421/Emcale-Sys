@@ -16,7 +16,6 @@ def criar_usuario_route(app):
         
         token = token.split(" ")[1] 
         
-        # Remover verificação de permissão aqui, já que o frontend vai fazer isso
         data = request.get_json()
         
         usuario_input = data.get('usuario')

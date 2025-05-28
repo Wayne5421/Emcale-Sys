@@ -1,7 +1,6 @@
 from flask import request, jsonify
 from models.ordem_servico import OrdemServico
 from extensions import db
-# from config import PRAZO_DELTA_PADRAO # Não precisamos mais subtrair PRAZO_DELTA_PADRAO aqui
 from datetime import datetime
 
 def criar_ordem_servico_route(app):
