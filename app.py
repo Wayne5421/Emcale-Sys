@@ -52,5 +52,6 @@ atualizar_ordem_servico_route(app)
 deletar_ordem_servico_route(app)
 listar_ordens_servico_route(app)
 
+
 if __name__ == "__main__":
     app.run(debug=True)

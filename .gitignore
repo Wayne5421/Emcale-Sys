@@ -1,79 +1,49 @@
-# ======================
-# FRONTEND (Angular/Node)
-# ======================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-/frontend/node_modules/
-/frontend/dist/
-/frontend/tmp/
-/frontend/out-tsc/
-/frontend/bazel-out/
-/frontend/.angular/cache
+# Environment variables
+.env
+.env.*
 
-# NPM/Yarn logs
-/frontend/npm-debug.log
-/frontend/yarn-error.log
+# Virtual environments
+venv/
+env/
+.venv/
 
-# VS Code config (keep some)
-frontend/.vscode/*
-!frontend/.vscode/settings.json
-!frontend/.vscode/tasks.json
-!frontend/.vscode/launch.json
-!frontend/.vscode/extensions.json
+# Flask-related files
+instance/
+*.db
+*.sqlite3
 
-# IDEs/editors
-/frontend/.idea/
-/frontend/.project
-/frontend/.classpath
-/frontend/.c9/
-/frontend/*.launch
-/frontend/.settings/
-/frontend/*.sublime-workspace
-/frontend/.history/
+# Log files
+*.log
 
-# Misc
-/frontend/.sass-cache/
-frontend/connect.lock
-/frontend/coverage
-/frontend/libpeerconnection.log
-/frontend/testem.log
-/frontend/typings
-/frontend/.DS_Store
-/frontend/Thumbs.db
-/frontend/.env
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 
+# Testing
+.pytest_cache/
+.tox/
 
-# ======================
-# BACKEND (Flask/Python)
-# ======================
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
 
-/backend/__pycache__/
-/backend/*.py[cod]
-/backend/*$py.class
+# System files
+.DS_Store
+Thumbs.db
 
-/backend/.env
-/backend/.env.*
-
-/backend/venv/
-/backend/env/
-/backend/.venv/
-
-/backend/*.db
-/backend/*.sqlite3
-/backend/*.log
-
-/backend/.pytest_cache/
-/backend/.coverage*
-/backend/htmlcov/
-/backend/.mypy_cache/
-/backend/.pyre/
-/backend/ruff_cache/
-
-/backend/.vscode/
-backend/.idea/
-
-/backend/.DS_Store
-/backend/Thumbs.db
-
-# Ignore migration or compiled folders if needed
-# /backend/migrations/
-
+# Pylint/mypy/ruff
+.mypy_cache/
+.pyre/
+ruff_cache/
