@@ -4,3 +4,4 @@ Flask-SQLAlchemy==3.1.1
 python-dotenv==1.1.0
 PyJWT==2.10.1
 SQLAlchemy==2.0.40
+gunicorn==23.0.0
