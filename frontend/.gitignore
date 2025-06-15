@@ -420,3 +420,5 @@ security.txt
 
 vulnerability-report.json
 audit-report.json
+
+static/
