@@ -88,4 +88,4 @@ npx ng serve
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Caio Gabriel (Maligno)** – [LinkedIn](https://www.linkedin.com/in/wayne5421/)
+Desenvolvido por **Caio Gabriel (Maligno)** – [LinkedIn](https://www.linkedin.com/in/wayne5421/).
