@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg-color: #121212;
   --card-bg: rgba(40, 40, 40, 0.7);
@@ -27,7 +31,7 @@
   --option-hover: #333;
 }
 
-  
+
   .dark-theme {
     --bg-color: #121212;
     --card-bg: rgba(40, 40, 40, 0.7);
@@ -35,7 +39,7 @@
     --text-color: #f4f4f4;
     --button-bg: #444;
   }
-  
+
   body {
     margin: 0;
     padding: 0;
@@ -44,4 +48,3 @@
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-  

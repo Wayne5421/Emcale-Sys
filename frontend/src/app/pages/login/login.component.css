@@ -42,8 +42,8 @@ body {
 }
 
 .login-form {
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
 }
 
 .login-form input[type="text"],
