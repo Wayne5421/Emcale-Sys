@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class DataService {
 
   private apiUrl = "https://emcale-erp.onrender.com";
+  // private apiUrl = "http://127.0.0.1:5000";
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,11 @@ export class DataService {
     });
   }
 
+
+  listarStatus(token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/listar-status`, { headers });
+  }
 
 
   atualizarUsuario(id: number, dados: any, token: string) {

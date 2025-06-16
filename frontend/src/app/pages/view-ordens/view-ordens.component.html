@@ -47,11 +47,30 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="prazo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prazo</th>
+    <ng-container matColumnDef="prazo_desktop">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prazo Desktop</th>
       <td mat-cell *matCellDef="let ordem">
-        {{ ordem.prazo | date: 'dd/MM/yyyy' }}
+        {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yyyy') : '-' }}
       </td>
+    </ng-container>
+
+    <ng-container matColumnDef="prazo_tecnico">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prazo Técnico</th>
+      <td mat-cell *matCellDef="let ordem">
+        {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yyyy') : '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricao_status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let ordem" [ngClass]="getStatusCellClass(ordem.descricao_status)">
+        {{ ordem.descricao_status }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nome_tecnico">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Técnico</th>
+      <td mat-cell *matCellDef="let ordem">{{ ordem.nome_tecnico }}</td>
     </ng-container>
 
     <ng-container matColumnDef="dias_restantes">
@@ -61,12 +80,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="nome_tecnico">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Técnico</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.nome_tecnico }}</td>
-    </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-anim"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-anim" [ngClass]="getRowClass(row)"></tr>
   </table>
 </section>

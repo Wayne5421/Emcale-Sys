@@ -4,50 +4,63 @@
   <div class="filters">
     <mat-form-field appearance="fill" class="search-field">
       <mat-label>Buscar</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (input)="filterAndSortOrdens()" />
+      <input matInput [(ngModel)]="searchTerm" (input)="filterAndSortOrdens()" name="searchTerm" />
     </mat-form-field>
 
     <button
       *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'"
       (click)="abrirModalCriar()"
       class="new-tech-button"
+      type="button"
     >
       Nova Ordem de Serviço
     </button>
   </div>
 
-  <div *ngIf="filteredOrdens.length === 0 && !erro">
+  <div *ngIf="erro" class="error-message">
+    {{ erro }}
+  </div>
+
+  <div *ngIf="!erro && filteredOrdens.length === 0" class="no-orders-message">
     Nenhuma ordem de serviço encontrada.
   </div>
 
   <div class="orders-grid">
-  <div
-    *ngFor="let ordem of filteredOrdens"
-    class="order-card"
-    [ngClass]="{
-      'prazo-critico': isPrazoCritico(ordem.prazo),
-      'clickable': permissaoLogada === 'admin' || permissaoLogada === 'dev'
-    }"
-    (click)="abrirModalEditar(ordem)"
-  >
+    <div
+      *ngFor="let ordem of filteredOrdens"
+      class="order-card"
+      [ngClass]="{
+        'prazo-critico': isPrazoCritico(ordem.prazo_desktop),
+        'clickable': permissaoLogada === 'admin' || permissaoLogada === 'dev'
+      }"
+      (click)="abrirModalEditar(ordem)"
+    >
       <h3>{{ ordem.wo_projeto }} (ID: {{ ordem.id }})</h3>
       <p><strong>Cidade:</strong> {{ ordem.cidade }}</p>
       <p><strong>Regional:</strong> {{ ordem.regional }}</p>
       <p><strong>Escopo:</strong> {{ ordem.escopo }}</p>
       <p><strong>Premissas:</strong> {{ ordem.premissas }}</p>
       <p><strong>Data de Abertura:</strong> {{ ordem.data_abertura | date: 'dd/MM/yyyy' }}</p>
-      <p><strong>Prazo:</strong> {{ ordem.prazo | date: 'dd/MM/yyyy' }}</p>
-      <p><strong>Técnico:</strong> {{ ordem.nome_tecnico }}</p>
+      <p><strong>Prazo Desktop:</strong> {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yyyy') : '-' }}</p>
+      <p><strong>Prazo Técnico:</strong> {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yyyy') : '-' }}</p>
+      <p><strong>Status:</strong> {{ ordem.descricao_status }}</p>
+      <p><strong>Técnico:</strong> {{ ordem.nome_tecnico || 'Não Atribuído' }}</p>
 
-      <p><strong>Faltam:</strong> {{ calcularDiasRestantes(ordem.prazo) }} dias</p>
-
-
+      <p>
+        <strong>Faltam:</strong>
+        <ng-container *ngIf="ordem.id_status === 2">
+          0 dias
+        </ng-container>
+        <ng-container *ngIf="ordem.id_status !== 2">
+          {{ calcularDiasRestantes(ordem.prazo_desktop, ordem.id_status) }} dias
+        </ng-container>
+      </p>
 
       <div class="card-actions" *ngIf="permissaoLogada === 'admin' || permissaoLogada === 'dev'">
-        <button (click)="abrirModalEditar(ordem); $event.stopPropagation()" class="update-button">
+        <button (click)="abrirModalEditar(ordem); $event.stopPropagation()" class="update-button" type="button">
           <img src="icons/edit.png" alt="Editar" />
         </button>
-        <button (click)="confirmarDelecao(ordem.id, $event)" class="delete-button">
+        <button (click)="confirmarDelecao(ordem.id!, $event)" class="delete-button" type="button">
           <img src="icons/trash.png" alt="Deletar" />
         </button>
       </div>
@@ -60,47 +73,63 @@
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>WO Projeto</mat-label>
-        <input matInput [(ngModel)]="ordemSelecionada.wo_projeto" />
+        <input matInput [(ngModel)]="ordemSelecionada.wo_projeto" name="wo_projeto_edit" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Cidade</mat-label>
-        <input matInput [(ngModel)]="ordemSelecionada.cidade" />
+        <input matInput [(ngModel)]="ordemSelecionada.cidade" name="cidade_edit" />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Regional</mat-label>
-        <input matInput [(ngModel)]="ordemSelecionada.regional" />
+        <input matInput [(ngModel)]="ordemSelecionada.regional" name="regional_edit" />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Escopo</mat-label>
-        <textarea matInput [(ngModel)]="ordemSelecionada.escopo"></textarea>
+        <textarea matInput [(ngModel)]="ordemSelecionada.escopo" name="escopo_edit"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Premissas</mat-label>
-        <textarea matInput [(ngModel)]="ordemSelecionada.premissas"></textarea>
+        <textarea matInput [(ngModel)]="ordemSelecionada.premissas" name="premissas_edit"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Data de Abertura</mat-label>
-        <input matInput [matDatepicker]="pickerAberturaEdit" [(ngModel)]="ordemSelecionada.data_abertura">
+        <input matInput [matDatepicker]="pickerAberturaEdit" [(ngModel)]="ordemSelecionada.data_abertura" name="data_abertura_edit" required />
         <mat-datepicker-toggle matSuffix [for]="pickerAberturaEdit"></mat-datepicker-toggle>
         <mat-datepicker #pickerAberturaEdit></mat-datepicker>
       </mat-form-field>
 
-<mat-form-field appearance="fill">
-  <mat-label>Prazo</mat-label>
-  <input matInput [matDatepicker]="picker" [(ngModel)]="ordemSelecionada.prazo" />
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Prazo Desktop</mat-label>
+        <input matInput [matDatepicker]="pickerEditPrazo" [(ngModel)]="ordemSelecionada.prazo_desktop" (dateChange)="onPrazoDesktopChange($event.value, false)" name="prazo_desktop_edit" required />
+        <mat-datepicker-toggle matSuffix [for]="pickerEditPrazo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEditPrazo></mat-datepicker>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Prazo Técnico</mat-label>
+        <input matInput [matDatepicker]="pickerEditPrazoTecnico" [(ngModel)]="ordemSelecionada.prazo_tecnico" name="prazo_tecnico_edit" />
+        <mat-datepicker-toggle matSuffix [for]="pickerEditPrazoTecnico"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEditPrazoTecnico></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="ordemSelecionada.id_status" name="status_edit">
+          <mat-option *ngFor="let status of statusList" [value]="status.id">
+            {{ status.descricao }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Técnico</mat-label>
-        <mat-select [(ngModel)]="ordemSelecionada.id_tecnico">
+        <mat-select [(ngModel)]="ordemSelecionada.id_tecnico" name="id_tecnico_edit">
+          <mat-option [value]="null">Nenhum Técnico</mat-option>
           <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
             {{ tecnico.nome }}
           </mat-option>
@@ -108,8 +137,8 @@
       </mat-form-field>
 
       <div class="modal-actions">
-        <button mat-button color="primary" (click)="salvarAlteracoes()">Salvar</button>
-        <button mat-button color="warn" (click)="fecharModalEditar()">Cancelar</button>
+        <button mat-button color="primary" (click)="salvarAlteracoes()" type="button">Salvar</button>
+        <button mat-button color="warn" (click)="fecharModalEditar()" type="button">Cancelar</button>
       </div>
     </div>
   </div>
@@ -120,58 +149,73 @@
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>WO Projeto</mat-label>
-        <input matInput [(ngModel)]="novaOrdem.wo_projeto" />
+        <input matInput [(ngModel)]="novaOrdem.wo_projeto" name="wo_projeto_new" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Cidade</mat-label>
-        <input matInput [(ngModel)]="novaOrdem.cidade" />
+        <input matInput [(ngModel)]="novaOrdem.cidade" name="cidade_new" />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Regional</mat-label>
-        <input matInput [(ngModel)]="novaOrdem.regional" />
+        <input matInput [(ngModel)]="novaOrdem.regional" name="regional_new" />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Escopo</mat-label>
-        <textarea matInput [(ngModel)]="novaOrdem.escopo"></textarea>
+        <textarea matInput [(ngModel)]="novaOrdem.escopo" name="escopo_new"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Premissas</mat-label>
-        <textarea matInput [(ngModel)]="novaOrdem.premissas"></textarea>
+        <textarea matInput [(ngModel)]="novaOrdem.premissas" name="premissas_new"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Data de Abertura</mat-label>
-        <input matInput [matDatepicker]="pickerAberturaCriar" [(ngModel)]="novaOrdem.data_abertura">
+        <input matInput [matDatepicker]="pickerAberturaCriar" [(ngModel)]="novaOrdem.data_abertura" name="data_abertura_new" required />
         <mat-datepicker-toggle matSuffix [for]="pickerAberturaCriar"></mat-datepicker-toggle>
         <mat-datepicker #pickerAberturaCriar></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Prazo</mat-label>
-        <input matInput [matDatepicker]="pickerPrazoCriar" [(ngModel)]="novaOrdem.prazo">
+        <mat-label>Prazo Desktop</mat-label>
+        <input matInput [matDatepicker]="pickerPrazoCriar" [(ngModel)]="novaOrdem.prazo_desktop" (dateChange)="onPrazoDesktopChange($event.value, true)" name="prazo_desktop_new" required />
         <mat-datepicker-toggle matSuffix [for]="pickerPrazoCriar"></mat-datepicker-toggle>
         <mat-datepicker #pickerPrazoCriar></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Técnico</mat-label>
-        <mat-select [(ngModel)]="novaOrdem.id_tecnico">
-          <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
-            {{ tecnico.nome }}
+        <mat-label>Prazo Técnico</mat-label>
+        <input matInput [matDatepicker]="pickerPrazoTecnico" [(ngModel)]="novaOrdem.prazo_tecnico" name="prazo_tecnico_new" />
+        <mat-datepicker-toggle matSuffix [for]="pickerPrazoTecnico"></mat-datepicker-toggle>
+        <mat-datepicker #pickerPrazoTecnico></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="novaOrdem.id_status" name="status_new">
+          <mat-option *ngFor="let status of statusList" [value]="status.id">
+            {{ status.descricao }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Técnico</mat-label>
+        <mat-select [(ngModel)]="novaOrdem.id_tecnico" name="id_tecnico_new">
+          <mat-option [value]="null">Nenhum Técnico</mat-option>
+          <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
+            {{ tecnico.nome }}
+          </mat-option>
+        </mat-select>
+        </mat-form-field> 
+
       <div class="modal-actions">
-        <button mat-button color="primary" (click)="salvarNovaOrdem()">Criar</button>
-        <button mat-button color="warn" (click)="fecharModalCriar()">Cancelar</button>
+        <button mat-button color="primary" (click)="salvarNovaOrdem()" type="button">Criar</button>
+        <button mat-button color="warn" (click)="fecharModalCriar()" type="button">Cancelar</button>
       </div>
     </div>
   </div>
-
-  <p class="error" *ngIf="erro">{{ erro }}</p>
 </section>

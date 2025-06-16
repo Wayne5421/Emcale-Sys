@@ -1,8 +1,7 @@
 from flask import request, jsonify
 from models.ordem_servico import OrdemServico
 from extensions import db
-# from config import PRAZO_DELTA_PADRAO # Não precisamos mais subtrair PRAZO_DELTA_PADRAO diretamente
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_cors import cross_origin
 
 def atualizar_ordem_servico_route(app):
@@ -20,21 +19,32 @@ def atualizar_ordem_servico_route(app):
         regional = data.get('regional')
         escopo = data.get('escopo')
         premissas = data.get('premissas')
-        prazo_str = data.get('prazo') 
+        prazo_desktop_str = data.get('prazo_desktop')
         id_tecnico = data.get('id_tecnico')
+        id_status = data.get('id_status')
 
-        if wo_projeto: ordem.wo_projeto = wo_projeto
-        if cidade: ordem.cidade = cidade
-        if regional: ordem.regional = regional
-        if escopo is not None: ordem.escopo = escopo
-        if premissas is not None: ordem.premissas = premissas
-        if id_tecnico is not None: ordem.id_tecnico = id_tecnico
+        if wo_projeto:
+            ordem.wo_projeto = wo_projeto
+        if cidade:
+            ordem.cidade = cidade
+        if regional:
+            ordem.regional = regional
+        if escopo is not None:
+            ordem.escopo = escopo
+        if premissas is not None:
+            ordem.premissas = premissas
+        if id_tecnico is not None:
+            ordem.id_tecnico = id_tecnico
+        if id_status is not None:
+            ordem.id_status = id_status
 
-        if prazo_str:
+        if prazo_desktop_str:
             try:
-                ordem.prazo = datetime.strptime(prazo_str, '%Y-%m-%d').date() # Converta a string para date
+                prazo_desktop = datetime.strptime(prazo_desktop_str, '%Y-%m-%d').date()
+                ordem.prazo_desktop = prazo_desktop
+                ordem.prazo_tecnico = prazo_desktop - timedelta(days=5)
             except ValueError:
-                return jsonify({'error': 'Formato de data inválido para o prazo (esperado YYYY-MM-DD)'}), 400
+                return jsonify({'error': 'Formato de data inválido para prazo_desktop (esperado YYYY-MM-DD)'}), 400
 
         try:
             db.session.commit()

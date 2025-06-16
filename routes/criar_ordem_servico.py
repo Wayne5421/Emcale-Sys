@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from models.ordem_servico import OrdemServico
 from extensions import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def criar_ordem_servico_route(app):
     @app.route('/criar-ordem-servico', methods=['POST'])
@@ -13,14 +13,16 @@ def criar_ordem_servico_route(app):
         regional = data.get('regional')
         escopo = data.get('escopo')
         premissas = data.get('premissas')
-        prazo_str = data.get('prazo') # Agora esperamos uma string de data
+        prazo_desktop_str = data.get('prazo_desktop')  # nome atualizado
         id_tecnico = data.get('id_tecnico')
+        id_status = data.get('id_status')
 
-        if not wo_projeto or not prazo_str:
-            return jsonify({'error': 'WO/Projeto e prazo são obrigatórios'}), 400
+        if not wo_projeto or not prazo_desktop_str:
+            return jsonify({'error': 'WO/Projeto e prazo_desktop são obrigatórios'}), 400
 
         try:
-            prazo_final = datetime.strptime(prazo_str, '%Y-%m-%d').date() # Converta a string para date
+            prazo_desktop = datetime.strptime(prazo_desktop_str, '%Y-%m-%d').date()
+            prazo_tecnico = prazo_desktop - timedelta(days=5)
 
             nova_ordem = OrdemServico(
                 wo_projeto=wo_projeto,
@@ -28,8 +30,10 @@ def criar_ordem_servico_route(app):
                 regional=regional,
                 escopo=escopo,
                 premissas=premissas,
-                prazo=prazo_final,
-                id_tecnico=id_tecnico
+                prazo_desktop=prazo_desktop,
+                prazo_tecnico=prazo_tecnico,
+                id_tecnico=id_tecnico,
+                id_status=id_status
             )
 
             db.session.add(nova_ordem)
@@ -39,7 +43,7 @@ def criar_ordem_servico_route(app):
 
         except ValueError:
             db.session.rollback()
-            return jsonify({'error': 'Formato de data inválido para o prazo (esperado YYYY-MM-DD)'}), 400
+            return jsonify({'error': 'Formato de data inválido para o prazo_desktop (esperado YYYY-MM-DD)'}), 400
         except Exception as e:
             db.session.rollback()
             return jsonify({'error': f'Erro ao criar ordem: {str(e)}'}), 500
