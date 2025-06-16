@@ -1,23 +1,43 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common"
+import { FormsModule } from "@angular/forms"
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  standalone: true,
   imports: [CommonModule, FormsModule]
 })
 export class LoginComponent {
   usuario = '';
   senha = '';
   erro = '';
+  mostrarSenha = false
+  isDark = false
 
-  mostrarSenha = false;
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.isDark = document.documentElement.classList.contains('dark');
+  }
 
-  constructor(private authService: AuthService, private router: Router) {}
+  toggleTheme() {
+    this.isDark = !this.isDark
+    if (this.isDark) {
+      document.documentElement.classList.add("dark")
+      localStorage.setItem("theme", "dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+    }
+  }
+
+  toggleMostrarSenha() {
+    this.mostrarSenha = !this.mostrarSenha
+  }
 
   login() {
     this.authService.login(this.usuario, this.senha).subscribe({
@@ -31,9 +51,5 @@ export class LoginComponent {
         this.erro = err.error?.error || 'Erro ao fazer login';
       }
     });
-  }
-
-  toggleMostrarSenha() {
-    this.mostrarSenha = !this.mostrarSenha;
   }
 }
