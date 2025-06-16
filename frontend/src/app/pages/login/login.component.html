@@ -1,14 +1,14 @@
-<div class="relative flex h-screen bg-gray-900 dark:bg-background-dark">
-  <button
-    (click)="toggleTheme(); $event.stopPropagation()"
-    class="absolute top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-black shadow hover:bg-gray-300 dark:hover:bg-gray-900 transition z-10"
+<div class="relative flex h-screen bg-white dark:bg-black">
+  <div
+    (click)="toggleTheme()"
+    class="theme-toggle-switch absolute top-4 right-4 flex items-center bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full p-1 cursor-pointer transition-colors duration-300 z-10"
     aria-label="Alternar Tema"
   >
-    <i
-      class="fa-solid"
-      [ngClass]="isDark ? 'fa-sun text-yellow-400' : 'fa-moon text-gray-600'"
-    ></i>
-  </button>
+    <i class="fa-solid fa-sun text-gray-600 dark:text-gray-400 text-sm mx-1"></i>
+    <div class="w-px h-4 bg-gray-500 dark:bg-gray-400 mx-1"></div>
+    <i class="fa-solid fa-moon text-gray-600 dark:text-gray-400 text-sm mx-1"></i>
+    <div class="absolute top-0 left-0 h-full w-1/2 bg-white dark:bg-gray-600 rounded-full transition-transform duration-300" [ngClass]="isDark ? 'translate-x-full' : 'translate-x-0'"></div>
+  </div>
 
   <div class="hidden lg:flex w-1/2 p-8">
     <div
@@ -40,15 +40,15 @@
   </div>
 
   <div class="flex w-full lg:w-1/2 items-center justify-center p-12">
-    <div class="w-full max-w-lg space-y-6">
-      <h2 class="text-3xl font-bold text-gray-100 dark:text-gray-100">Login</h2>
-      <p class="text-gray-400 dark:text-gray-400">
+    <div class="w-full max-w-lg space-y-6 bg-white dark:bg-black p-8 rounded-lg shadow-lg">
+      <h2 class="text-3xl font-bold text-black dark:text-white">Login</h2>
+      <p class="text-gray-600 dark:text-gray-300">
         Digite suas credenciais para acessar sua conta.
       </p>
 
       <form (ngSubmit)="login()" class="space-y-6">
         <div class="relative">
-          <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400"></i>
+          <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"></i>
           <input
             id="usuario"
             name="usuario"
@@ -56,27 +56,25 @@
             [(ngModel)]="usuario"
             required
             placeholder="Nome de usuário"
-            class="w-full h-14 pl-12 pr-4 border border-gray-700 bg-black text-gray-100 placeholder-gray-400 rounded-xl
-                   focus:outline-none focus:ring-2 focus:ring-primary transition"
+            class="w-full h-14 pl-12 pr-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500 transition focus:border-transparent rounded-md"
           />
         </div>
 
         <div class="relative">
-          <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400"></i>
+          <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"></i>
           <input
             id="senha"
             name="senha"
             [type]="mostrarSenha ? 'text' : 'password'"
             [(ngModel)]="senha"
             required
-            placeholder="Sua senha"
-            class="w-full h-14 pl-12 pr-14 border border-gray-700 bg-black text-gray-100 placeholder-gray-400 rounded-xl
-                   focus:outline-none focus:ring-2 focus:ring-primary transition"
+            placeholder="Sua senha"            
+            class="w-full h-14 pl-12 pr-14 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500 transition focus:border-transparent"
           />
-          <button
+          <button 
             type="button"
             (click)="toggleMostrarSenha()"
-            class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition"
+            class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 transition"
           >
             <i class="fa-regular" [ngClass]="mostrarSenha ? 'fa-eye-slash' : 'fa-eye'"></i>
           </button>
@@ -84,9 +82,9 @@
 
         <p *ngIf="erro" class="text-red-500 text-center">{{ erro }}</p>
 
-        <button
+        <button 
           type="submit"
-          class="w-full h-14 bg-primary text-white rounded-xl hover:bg-primary-dark transition"
+          class="w-full h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 transition"
         >
           Entrar
         </button>
