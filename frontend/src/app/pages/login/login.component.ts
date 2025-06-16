@@ -21,7 +21,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {
-    this.isDark = document.documentElement.classList.contains('dark');
+ this.isDark = true
+ document.documentElement.classList.add("dark")
   }
 
   toggleTheme() {
