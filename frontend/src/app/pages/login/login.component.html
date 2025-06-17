@@ -1,19 +1,33 @@
 <div class="relative flex h-screen bg-white dark:bg-black">
   <div
     (click)="toggleTheme()"
-    class="theme-toggle-switch absolute top-4 right-4 flex items-center bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full p-1 cursor-pointer transition-colors duration-300 z-10"
+    class="absolute top-4 right-4 flex items-center justify-center space-x-3 px-4 py-3 h-12 text-lg font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground rounded-full border border-gray-300 dark:border-gray-600 bg-white/60 dark:bg-black/20 backdrop-blur-lg transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105"
     aria-label="Alternar Tema"
   >
-    <i class="fa-solid fa-sun text-gray-600 dark:text-gray-400 text-sm mx-1"></i>
-    <div class="w-px h-4 bg-gray-500 dark:bg-gray-400 mx-1"></div>
-    <i class="fa-solid fa-moon text-gray-600 dark:text-gray-400 text-sm mx-1"></i>
-    <div class="absolute top-0 left-0 h-full w-1/2 bg-white dark:bg-gray-600 rounded-full transition-transform duration-300" [ngClass]="isDark ? 'translate-x-full' : 'translate-x-0'"></div>
+    <i 
+      class="fa-solid fa-sun text-gray-600 dark:text-gray-400 transition-all duration-300"
+      [ngStyle]="!isDark ? {
+        'filter': 'drop-shadow(0 0 4px #ffc107) drop-shadow(0 0 8px #ffc107)',
+        'color': '#ffc107'
+      } : {}"
+    ></i>
+    <div class="w-px h-6 bg-gray-500 dark:bg-gray-400"></div>
+    <i 
+      class="fa-solid fa-moon text-gray-600 dark:text-gray-400 transition-all duration-300"
+      [ngStyle]="isDark ? {
+        'filter': 'drop-shadow(0 0 4px #ef4444) drop-shadow(0 0 8px #ef4444)',
+        'color': '#ef4444'
+      } : {}"
+    ></i>
   </div>
 
   <div class="hidden lg:flex w-1/2 p-8">
     <div
-      class="h-full w-full rounded-4xl overflow-hidden bg-gradient-to-b from-primary-dark via-primary-dark to-primary
-             dark:from-primary-dark dark:via-primary-dark dark:to-primary"
+      class="h-full w-full rounded-4xl overflow-hidden bg-gradient-to-b transition-all duration-700"
+      [ngClass]="{ 
+        'from-yellow-400 via-yellow-500 to-yellow-600': !isDark, 
+        'from-red-600 via-red-700 to-red-800': isDark 
+      }"
     >
       <div class="flex h-full flex-col items-center justify-center px-16 text-center text-white space-y-6">
         <h1 class="text-3xl font-bold">Emcale</h1>
@@ -23,15 +37,29 @@
         </p>
         <ul class="w-full max-w-md space-y-4">
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-red-600 font-bold">1</span>
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-white font-bold text-yellow-600"
+            >
+              1
+            </span>
             <span class="text-lg font-medium">Digite suas credenciais</span>
           </li>
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10 opacity-80">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white font-bold">2</span>
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 font-bold"
+              [ngClass]="{ 'text-yellow-600': !isDark, 'text-white': isDark }"
+            >
+              2
+            </span>
             <span class="text-lg">Acesse sua conta</span>
           </li>
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10 opacity-80">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white font-bold">3</span>
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 font-bold"
+              [ngClass]="{ 'text-yellow-600': !isDark, 'text-white': isDark }"
+            >
+              3
+            </span>
             <span class="text-lg">Continue sua jornada</span>
           </li>
         </ul>
@@ -56,7 +84,7 @@
             [(ngModel)]="usuario"
             required
             placeholder="Nome de usuário"
-            class="w-full h-14 pl-12 pr-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500 transition focus:border-transparent rounded-md"
+            class="w-full h-14 pl-12 pr-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:focus:ring-red-500 dark:focus:border-red-500 focus:border-blue-500 transition focus:border-transparent dark:focus:border-red-500"
           />
         </div>
 
@@ -68,10 +96,10 @@
             [type]="mostrarSenha ? 'text' : 'password'"
             [(ngModel)]="senha"
             required
-            placeholder="Sua senha"            
-            class="w-full h-14 pl-12 pr-14 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500 transition focus:border-transparent"
+            placeholder="Sua senha"
+            class="w-full h-14 pl-12 pr-14 border border-gray-300 dark:border-gray-600 bg-white dark:bg-black text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:focus:ring-red-500 dark:focus:border-red-500 transition focus:border-transparent dark:focus:border-red-500"
           />
-          <button 
+          <button
             type="button"
             (click)="toggleMostrarSenha()"
             class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 transition"
@@ -80,11 +108,14 @@
           </button>
         </div>
 
-        <p *ngIf="erro" class="text-red-500 text-center">{{ erro }}</p>
+        <p *ngIf="erro" class="text-center text-yellow-500">
+          {{ erro }}
+        </p>
 
-        <button 
+        <button
           type="submit"
-          class="w-full h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 transition"
+          class="w-full h-14 text-white rounded-xl transition"
+          [ngClass]="{ 'bg-yellow-500 hover:bg-yellow-600': !isDark, 'bg-red-500 hover:bg-red-600': isDark }"
         >
           Entrar
         </button>
