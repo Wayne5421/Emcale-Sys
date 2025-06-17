@@ -48,3 +48,226 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+@keyframes glow-flip-yellow-red {
+  0% {
+    text-shadow:
+      -2px 0 10px rgba(250, 204, 21, 0.9),
+      -4px 0 20px rgba(250, 204, 21, 0.7),
+      -6px 0 30px rgba(250, 204, 21, 0.5),
+      2px 0 10px rgba(239, 68, 68, 0.9),
+      4px 0 20px rgba(239, 68, 68, 0.7),
+      6px 0 30px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    text-shadow:
+      -2px 0 10px rgba(239, 68, 68, 0.9),
+      -4px 0 20px rgba(239, 68, 68, 0.7),
+      -6px 0 30px rgba(239, 68, 68, 0.5),
+      2px 0 10px rgba(250, 204, 21, 0.9),
+      4px 0 20px rgba(250, 204, 21, 0.7),
+      6px 0 30px rgba(250, 204, 21, 0.5);
+  }
+  100% {
+    text-shadow:
+      -2px 0 10px rgba(250, 204, 21, 0.9),
+      -4px 0 20px rgba(250, 204, 21, 0.7),
+      -6px 0 30px rgba(250, 204, 21, 0.5),
+      2px 0 10px rgba(239, 68, 68, 0.9),
+      4px 0 20px rgba(239, 68, 68, 0.7),
+      6px 0 30px rgba(239, 68, 68, 0.5);
+  }
+}
+
+@keyframes glow-flip-yellow {
+  0% {
+    text-shadow:
+      0 0 10px rgba(250, 204, 21, 0.8),
+      0 0 20px rgba(250, 204, 21, 0.6),
+      0 0 30px rgba(250, 204, 21, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(245, 158, 11, 0.9),
+      0 0 25px rgba(245, 158, 11, 0.7),
+      0 0 35px rgba(245, 158, 11, 0.5);
+  }
+  100% {
+    text-shadow:
+      0 0 10px rgba(250, 204, 21, 0.8),
+      0 0 20px rgba(250, 204, 21, 0.6),
+      0 0 30px rgba(250, 204, 21, 0.4);
+  }
+}
+
+@keyframes glow-flip-amber {
+  0% {
+    text-shadow:
+      0 0 10px rgba(245, 158, 11, 0.8),
+      0 0 20px rgba(245, 158, 11, 0.6),
+      0 0 30px rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(249, 115, 22, 0.9),
+      0 0 25px rgba(249, 115, 22, 0.7),
+      0 0 35px rgba(249, 115, 22, 0.5);
+  }
+  100% {
+    text-shadow:
+      0 0 10px rgba(245, 158, 11, 0.8),
+      0 0 20px rgba(245, 158, 11, 0.6),
+      0 0 30px rgba(245, 158, 11, 0.4);
+  }
+}
+
+@keyframes glow-flip-red {
+  0% {
+    text-shadow:
+      0 0 10px rgba(248, 113, 113, 0.8),
+      0 0 20px rgba(248, 113, 113, 0.6),
+      0 0 30px rgba(248, 113, 113, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(244, 63, 94, 0.9),
+      0 0 25px rgba(244, 63, 94, 0.7),
+      0 0 35px rgba(244, 63, 94, 0.5);
+  }
+  100% {
+    text-shadow:
+      0 0 10px rgba(248, 113, 113, 0.8),
+      0 0 20px rgba(248, 113, 113, 0.6),
+      0 0 30px rgba(248, 113, 113, 0.4);
+  }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5), 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 30px rgba(249, 115, 22, 0.6);
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes progress-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.6), 0 0 20px rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.9), 0 0 30px rgba(245, 158, 11, 0.7);
+  }
+}
+
+@keyframes glow-flip-system {
+  0% {
+    text-shadow: 0 0 8px rgba(161, 161, 170, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(161, 161, 170, 0.6);
+  }
+}
+
+@keyframes glow-flip-dev {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  33% {
+    text-shadow: 0 0 15px rgba(250, 204, 21, 0.8);
+  }
+  66% {
+    text-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  33% { transform: translate(-5px, -8px) scale(1.2); opacity: 1; }
+  66% { transform: translate(3px, -12px) scale(0.8); opacity: 0.5; }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(-8px, -6px) scale(1.5); opacity: 1; }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  25% { transform: translate(4px, -5px) scale(0.7); opacity: 1; }
+  75% { transform: translate(-6px, -10px) scale(1.3); opacity: 0.8; }
+}
+
+.animate-glow-flip-yellow-red {
+  animation: glow-flip-yellow-red 1.8s ease-in-out infinite;
+}
+
+.animate-glow-flip-yellow {
+  animation: glow-flip-yellow 1.5s ease-in-out infinite;
+}
+
+.animate-glow-flip-amber {
+  animation: glow-flip-amber 1.6s ease-in-out infinite;
+}
+
+.animate-glow-flip-red {
+  animation: glow-flip-red 1.7s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+.animate-progress-glow {
+  animation: progress-glow 2.5s ease-in-out infinite;
+}
+
+.animate-glow-flip-system {
+  animation: glow-flip-system 2.2s ease-in-out infinite;
+}
+
+.animate-glow-flip-dev {
+  animation: glow-flip-dev 3s ease-in-out infinite;
+}
+
+.animate-float-1 {
+  animation: float-1 4s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-2 3.5s ease-in-out infinite 0.5s;
+}
+
+.animate-float-3 {
+  animation: float-3 4.5s ease-in-out infinite 1s;
+}
+
+.arrow-active .arrow-icon {
+  transform: rotate(90deg);
+}

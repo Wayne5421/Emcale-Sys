@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 
@@ -7,12 +7,20 @@ import { HeaderComponent } from '../header/header.component';
   selector: 'app-layout',
   standalone: true,
   imports: [CommonModule, RouterModule, HeaderComponent],
-  templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  templateUrl: './layout.component.html'
 })
 export class LayoutComponent {
+  isDarkMode = false;
   nome = localStorage.getItem('nome_completo') || '';
   permissao = localStorage.getItem('permissao') || '';
+
+  constructor(private router: Router) {
+    this.isDarkMode = localStorage.getItem('theme') === 'dark';
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isDarkMode = localStorage.getItem('theme') === 'dark';      }
+    });
+  }
 
   logout() {
     localStorage.clear();
