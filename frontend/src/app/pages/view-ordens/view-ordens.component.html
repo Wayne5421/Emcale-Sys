@@ -1,86 +1,306 @@
-<section class="container">
-  <div class="header-with-search">
-    <h2>📋 Ordens de Serviço</h2>
+<div class="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-black p-6">
+  <div class="max-w-full mx-auto">
+    <div class="mb-8 text-center">
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent mb-2">
+        📋 Ordens de Serviço
+      </h1>
+      <p class="text-zinc-400">Visualização completa das ordens de serviço</p>
+    </div>
 
-    <mat-form-field appearance="fill" class="search-field">
-      <mat-label>Pesquisar</mat-label>
-      <input matInput (input)="applyFilter($event)" placeholder="Filtrar ordens" />
-    </mat-form-field>
+    <div class="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-zinc-400">Total de Ordens</p>
+          <p class="text-2xl font-bold text-white">{{ dataSource.data.length }}</p>
+        </div>
+      </div>
+
+      <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-zinc-400">Fechadas</p>
+          <p class="text-2xl font-bold text-white">{{ getOrdensCount('fechada') }}</p>
+        </div>
+      </div>
+
+      <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-zinc-400">Em Andamento</p>
+          <p class="text-2xl font-bold text-white">{{ getOrdensCount('em andamento') }}</p>
+        </div>
+      </div>
+
+      <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm text-zinc-400">Vencidas</p>
+          <p class="text-2xl font-bold text-white">{{ getVencidasCount() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-8 bg-black/30 backdrop-blur-xl rounded-2xl border border-zinc-800/50 p-6 shadow-2xl">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-zinc-300 mb-2">Buscar Ordem</label>
+          <input [(ngModel)]="searchTerm" (input)="onSearchChange()" (keyup)="onSearchChange()"
+                 placeholder="Projeto, cidade, regional, escopo, técnico..."
+                 class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-zinc-300 mb-2">Filtrar por Status</label>
+          <select [(ngModel)]="selectedStatus" (change)="applyFilter()"
+                  class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+            <option value="">Todos os Status</option>
+            <option *ngFor="let status of statusList" [value]="status.descricao">{{ status.descricao }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-zinc-300 mb-2">Filtrar por Técnico</label>
+          <select [(ngModel)]="selectedTecnico" (change)="applyFilter()"
+                  class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+            <option value="">Todos os Técnicos</option>
+            <option *ngFor="let tecnico of tecnicos" [value]="tecnico.nome">{{ tecnico.nome }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between">
+        <div class="text-sm text-zinc-400">
+          Mostrando {{ filteredOrdens.length }} de {{ dataSource.data.length }} ordens
+          <span *ngIf="selectedOrdens.length > 0" class="ml-4 text-yellow-400 font-medium">
+            ({{ selectedOrdens.length }} selecionadas)
+          </span>
+        </div>
+        <div class="flex gap-2 text-xs">
+          <span class="px-2 py-1 bg-red-500/20 text-red-300 rounded">Vencido</span>
+          <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded">Atenção</span>
+          <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded">No Prazo</span>
+        </div>
+      </div>
+
+      <div *ngIf="selectedOrdens.length > 0" class="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+        <div class="flex items-center justify-between">
+          <span class="text-yellow-300 font-medium">{{ selectedOrdens.length }} ordem(ns) selecionada(s)</span>
+          <div class="flex gap-2">
+            <button (click)="atribuirTecnico()" class="px-4 py-2 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-lg hover:bg-blue-500/30 transition-all duration-300 text-sm">
+              Atribuir Técnico
+            </button>
+            <button (click)="alterarStatus()" class="px-4 py-2 bg-green-500/20 text-green-300 border border-green-500/30 rounded-lg hover:bg-green-500/30 transition-all duration-300 text-sm">
+              Alterar Status
+            </button>
+            <button (click)="clearSelection()" class="px-4 py-2 bg-gray-500/20 text-gray-300 border border-gray-500/30 rounded-lg hover:bg-gray-500/30 transition-all duration-300 text-sm">
+              Limpar Seleção
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-black/30 backdrop-blur-xl rounded-2xl border border-zinc-800/50 shadow-2xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-max">
+          <thead>
+          <tr class="bg-zinc-800/50 border-b border-zinc-700/50">
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-12">
+              <input type="checkbox"
+                     [checked]="isAllSelected()"
+                     [indeterminate]="isIndeterminate()"
+                     (change)="toggleAllSelection()"
+                     class="w-4 h-4 text-yellow-500 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-500 focus:ring-2">
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-16 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('id')">
+              <div class="flex items-center gap-1">
+                ID
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('id') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('wo_projeto')">
+              <div class="flex items-center gap-1">
+                Projeto
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('wo_projeto') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('cidade')">
+              <div class="flex items-center gap-1">
+                Cidade
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('cidade') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('regional')">
+              <div class="flex items-center gap-1">
+                Regional
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('regional') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('escopo')">
+              <div class="flex items-center gap-1">
+                Escopo
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('escopo') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32">Premissas</th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('data_abertura')">
+              <div class="flex items-center gap-1">
+                Abertura
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('data_abertura') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('prazo_desktop')">
+              <div class="flex items-center gap-1">
+                Prazo Desktop
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_desktop') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('prazo_tecnico')">
+              <div class="flex items-center gap-1">
+                Prazo Técnico
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_tecnico') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('descricao_status')">
+              <div class="flex items-center gap-1">
+                Status
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('descricao_status') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('nome_tecnico')">
+              <div class="flex items-center gap-1">
+                Técnico
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('nome_tecnico') }}</span>
+              </div>
+            </th>
+            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-20 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                (click)="sortData('dias_restantes')">
+              <div class="flex items-center gap-1">
+                Restam
+                <span class="text-yellow-400 font-bold">{{ getSortIcon('dias_restantes') }}</span>
+              </div>
+            </th>
+          </tr>
+          </thead>
+
+          <tbody class="max-h-96 overflow-y-auto">
+          <tr *ngFor="let ordem of filteredOrdens; trackBy: trackByFn"
+              class="border-b border-zinc-700/30 hover:bg-zinc-800/50 transition-all duration-300 animate-fade-in"
+              [ngClass]="getRowClass(ordem)">
+
+            <td class="p-3">
+              <input type="checkbox"
+                     [checked]="isSelected(ordem)"
+                     (change)="toggleSelection(ordem)"
+                     class="w-4 h-4 text-yellow-500 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-500 focus:ring-2">
+            </td>
+
+            <td class="p-3 text-zinc-400 font-mono text-sm">
+              #{{ ordem.id }}
+            </td>
+
+            <td class="p-3 text-white font-medium text-sm" [title]="ordem.wo_projeto">
+              <div class="truncate max-w-32">{{ ordem.wo_projeto }}</div>
+            </td>
+
+            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.cidade">
+              <div class="truncate max-w-24">{{ ordem.cidade }}</div>
+            </td>
+
+            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.regional">
+              <div class="truncate max-w-24">{{ ordem.regional }}</div>
+            </td>
+
+            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.escopo">
+              <div class="truncate max-w-32">{{ ordem.escopo }}</div>
+            </td>
+
+            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.premissas">
+              <div class="truncate max-w-32">{{ ordem.premissas || '-' }}</div>
+            </td>
+
+            <td class="p-3 text-zinc-400 text-sm">
+              {{ ordem.data_abertura | date: 'dd/MM/yy' }}
+            </td>
+
+            <td class="p-3 text-zinc-400 text-sm">
+              {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yy') : '-' }}
+            </td>
+
+            <td class="p-3 text-zinc-400 text-sm">
+              {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yy') : '-' }}
+            </td>
+
+            <td class="p-3" [ngClass]="getStatusCellClass(ordem.descricao_status)">
+                <span class="px-3 py-1 rounded text-xs font-medium whitespace-nowrap"
+                      [ngClass]="{
+                        'bg-green-600 text-white': ordem.descricao_status.toLowerCase() === 'fechada',
+                        'bg-red-600 text-white': ordem.descricao_status.toLowerCase() === 'cancelado',
+                        'bg-yellow-600 text-black': ordem.descricao_status.toLowerCase() === 'aguardando',
+                        'bg-blue-600 text-white': ordem.descricao_status.toLowerCase() === 'em andamento',
+                        'bg-orange-600 text-white': ordem.descricao_status.toLowerCase() === 'aberta',
+                        'bg-gray-600 text-white': !['fechada', 'cancelado', 'aguardando', 'em andamento', 'aberta'].includes(ordem.descricao_status.toLowerCase())
+                      }">
+                  {{ ordem.descricao_status }}
+                </span>
+            </td>
+
+            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.nome_tecnico">
+              <div class="truncate max-w-28">{{ ordem.nome_tecnico }}</div>
+            </td>
+
+            <td class="p-3">
+                <span class="px-2 py-1 rounded text-xs font-medium whitespace-nowrap"
+                      [ngClass]="{
+                        'bg-red-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'red',
+                        'bg-yellow-600 text-black': getDiasRestantesColor(ordem.dias_restantes) === 'yellow',
+                        'bg-green-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'green',
+                        'bg-gray-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'gray'
+                      }">
+                  {{ typeof ordem.dias_restantes === 'number' ? ordem.dias_restantes + 'd' : ordem.dias_restantes }}
+                </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="filteredOrdens.length === 0" class="text-center py-16">
+        <div class="w-24 h-24 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-12 h-12 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-zinc-400 mb-2">Nenhuma ordem encontrada</h3>
+        <p class="text-zinc-500">Tente ajustar os filtros de busca</p>
+      </div>
+    </div>
   </div>
-
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tabela-ordens">
-
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.id }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="wo_projeto">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Projeto</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.wo_projeto }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="cidade">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Cidade</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.cidade }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="regional">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Regional</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.regional }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="escopo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Escopo</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.escopo }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="premissas">
-      <th mat-header-cell *matHeaderCellDef>Premissas</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.premissas }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="data_abertura">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Abertura</th>
-      <td mat-cell *matCellDef="let ordem">
-        {{ ordem.data_abertura | date: 'dd/MM/yyyy' }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="prazo_desktop">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prazo Desktop</th>
-      <td mat-cell *matCellDef="let ordem">
-        {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yyyy') : '-' }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="prazo_tecnico">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prazo Técnico</th>
-      <td mat-cell *matCellDef="let ordem">
-        {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yyyy') : '-' }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="descricao_status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-      <td mat-cell *matCellDef="let ordem" [ngClass]="getStatusCellClass(ordem.descricao_status)">
-        {{ ordem.descricao_status }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="nome_tecnico">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Técnico</th>
-      <td mat-cell *matCellDef="let ordem">{{ ordem.nome_tecnico }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="dias_restantes">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Faltam</th>
-      <td mat-cell *matCellDef="let ordem">
-        {{ ordem.dias_restantes }} dias
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-anim" [ngClass]="getRowClass(row)"></tr>
-  </table>
-</section>
+</div>
