@@ -1,4 +1,3 @@
-// tecnicos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
@@ -10,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-tecnicos',
   templateUrl: './tecnicos.component.html',
-  styleUrls: ['./tecnicos.component.css'],
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
 export class TecnicosComponent implements OnInit {
@@ -21,7 +19,7 @@ export class TecnicosComponent implements OnInit {
   tecnicoSelecionado: any = null;
   mostrarModalEditar: boolean = false;
   mostrarModalCriar: boolean = false;
-  novoTecnico: any = { nome: '', telefone: '', email: '' };
+  novoTecnico: any = { nome: '', cpf: '', rg: '', telefone: '', servicos_prestados: '' };
   permissaoLogada: string = '';
 
   constructor(private dataService: DataService) {}
@@ -111,7 +109,7 @@ export class TecnicosComponent implements OnInit {
   }
 
   abrirModalCriar(): void {
-    this.novoTecnico = { nome: '', telefone: '', email: '' };
+    this.novoTecnico = { nome: '', cpf: '', rg: '', telefone: '', servicos_prestados: '' };
     this.mostrarModalCriar = true;
   }
 
