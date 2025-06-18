@@ -12,15 +12,14 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css'],
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
 export class UsersComponent implements OnInit {
-  usuarios: any[] = [];  
-  filteredUsers: any[] = [];  
-  erro: string = ''; 
-  searchQuery: string = '';  
-  selectedPermission: string = '';  
+  usuarios: any[] = [];
+  filteredUsers: any[] = [];
+  erro: string = '';
+  searchQuery: string = '';
+  selectedPermission: string = '';
   usuarioSelecionado: any = null;
   mostrarModal: boolean = false;
   mostrarModalCriar: boolean = false;
@@ -63,7 +62,7 @@ ngOnInit(): void {
 
     if (this.searchQuery) {
       filtered = filtered.filter((usuario) =>
-        usuario.usuario.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+        usuario.usuario.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         usuario.nome_completo.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     }
@@ -90,12 +89,12 @@ ngOnInit(): void {
 
   abrirModal(usuario: any): void {
     if (this.permissaoLogada === 'admin' || this.permissaoLogada === 'dev') {
-      this.usuarioSelecionado = { ...usuario }; 
-      console.log('Abrindo modal para usuário:', this.usuarioSelecionado);  
+      this.usuarioSelecionado = { ...usuario };
+      console.log('Abrindo modal para usuário:', this.usuarioSelecionado);
       this.mostrarModal = true;
     }
   }
-  
+
 
   fecharModal(): void {
     this.mostrarModal = false;
@@ -110,7 +109,7 @@ ngOnInit(): void {
         next: (res) => {
           alert('Usuário atualizado com sucesso!');
           this.mostrarModal = false;
-          location.reload(); 
+          location.reload();
         },
         error: (err) => {
           console.error(err);
@@ -120,21 +119,21 @@ ngOnInit(): void {
   }
 
   confirmarDelecao(id: number, event: Event): void {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const confirmation = confirm('Tem certeza que deseja deletar este usuário?');
     if (confirmation) {
       const token = localStorage.getItem('token');
-  
+
 
       if (!token) {
         this.erro = 'Token de autenticação não encontrado. Por favor, faça login novamente.';
-        return; 
+        return;
       }
-  
+
       this.dataService.deletarUsuario(id, token).subscribe({
         next: (response) => {
           alert(response.message);
-          this.usuarios = this.usuarios.filter((user) => user.id !== id); 
+          this.usuarios = this.usuarios.filter((user) => user.id !== id);
           this.filteredUsers = this.filteredUsers.filter((user) => user.id !== id);
         },
         error: (err) => {
@@ -144,7 +143,7 @@ ngOnInit(): void {
       });
     }
   }
-  
+
   abrirModalCriarUsuario(): void {
     this.novoUsuario = { nome_completo: '', usuario: '', senha: '', permissao: '' };
     this.mostrarModalCriar = true;
