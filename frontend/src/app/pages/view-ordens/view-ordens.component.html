@@ -99,24 +99,7 @@
         </div>
       </div>
 
-      <div *ngIf="selectedOrdens.length > 0" class="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
-        <div class="flex items-center justify-between">
-          <span class="text-yellow-300 font-medium">{{ selectedOrdens.length }} ordem(ns) selecionada(s)</span>
-          <div class="flex gap-2">
-            <button (click)="atribuirTecnico()" class="px-4 py-2 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-lg hover:bg-blue-500/30 transition-all duration-300 text-sm">
-              Atribuir Técnico
-            </button>
-            <button (click)="alterarStatus()" class="px-4 py-2 bg-green-500/20 text-green-300 border border-green-500/30 rounded-lg hover:bg-green-500/30 transition-all duration-300 text-sm">
-              Alterar Status
-            </button>
-            <button (click)="clearSelection()" class="px-4 py-2 bg-gray-500/20 text-gray-300 border border-gray-500/30 rounded-lg hover:bg-gray-500/30 transition-all duration-300 text-sm">
-              Limpar Seleção
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
+      
     <div class="bg-black/30 backdrop-blur-xl rounded-2xl border border-zinc-800/50 shadow-2xl overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full min-w-max">
@@ -215,12 +198,16 @@
               class="border-b border-zinc-700/30 hover:bg-zinc-800/50 transition-all duration-300 animate-fade-in"
               [ngClass]="getRowClass(ordem)">
 
-            <td class="p-3">
-              <input type="checkbox"
-                     [checked]="isSelected(ordem)"
-                     (change)="toggleSelection(ordem)"
-                     class="w-4 h-4 text-yellow-500 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-500 focus:ring-2">
-            </td>
+<td class="p-3">
+  <button (click)="abrirModalObservacao(ordem)"
+          class="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors"
+          title="Ver Observação">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12H9m6 4H9m12 2a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V18z" />
+    </svg>
+  </button>
+</td>
 
             <td class="p-3 text-zinc-400 font-mono text-sm">
               #{{ ordem.id }}
@@ -303,4 +290,31 @@
       </div>
     </div>
   </div>
+
+<div *ngIf="ordemSelecionada"
+     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+     (click)="fecharModalObservacao()">
+  
+
+  <div class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl border border-yellow-600 shadow-2xl relative animate-fade-in"
+       (click)="$event.stopPropagation()">
+
+    <button (click)="fecharModalObservacao()"
+            class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
+      &times;
+    </button>
+
+    <h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
+      Observação da Ordem #{{ ordemSelecionada.id }}
+    </h2>
+
+    <div class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto px-4">
+      {{ ordemSelecionada.observacao || 'Nenhuma observação disponível.' }}
+    </div>
+
+  </div>
+</div>
+
+
+
 </div>

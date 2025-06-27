@@ -25,7 +25,8 @@ def listar_ordens_servico_route(app):
                 'id_tecnico': ordem.id_tecnico,
                 'nome_tecnico': ordem.tecnico.nome if ordem.tecnico else None,
                 'id_status': ordem.id_status,
-                'descricao_status': ordem.status.descricao if ordem.status else None
+                'descricao_status': ordem.status.descricao if ordem.status else None,
+                'observacao': ordem.observacoes[0].observacao if ordem.observacoes else None  # 👈 aqui
             })
 
         return jsonify({'ordens_servico': lista}), 200

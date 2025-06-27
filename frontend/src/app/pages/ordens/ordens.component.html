@@ -136,6 +136,11 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="full-width">
+  <mat-label>Observação</mat-label>
+  <textarea matInput [(ngModel)]="ordemSelecionada.observacao" name="observacao_edit"></textarea>
+</mat-form-field>
+
       <div class="modal-actions">
         <button mat-button color="primary" (click)="salvarAlteracoes()" type="button">Salvar</button>
         <button mat-button color="warn" (click)="fecharModalEditar()" type="button">Cancelar</button>
@@ -211,6 +216,11 @@
           </mat-option>
         </mat-select>
         </mat-form-field> 
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Observação</mat-label>
+          <textarea matInput [(ngModel)]="novaOrdem.observacao" name="observacao_new"></textarea>
+        </mat-form-field>
 
       <div class="modal-actions">
         <button mat-button color="primary" (click)="salvarNovaOrdem()" type="button">Criar</button>

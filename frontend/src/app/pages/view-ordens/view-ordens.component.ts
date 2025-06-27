@@ -53,6 +53,9 @@ export class ViewOrdens implements OnInit {
   selectedStatus = ""
   selectedTecnico = ""
 
+  mostrarModalObservacao: boolean = false;
+  ordemSelecionada: any = null;
+
   @ViewChild(MatSort) sort!: MatSort
 
   statusList: any[] = []
@@ -366,6 +369,15 @@ export class ViewOrdens implements OnInit {
       return 0
     })
   }
+
+
+abrirModalObservacao(ordem: any) {
+  this.ordemSelecionada = ordem;
+}
+
+fecharModalObservacao() {
+  this.ordemSelecionada = null;
+}
 
   getSortIcon(column: string): string {
     if (this.sortColumn !== column) return ""

@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from models.ordem_servico import OrdemServico
+from models.observacao import Observacao
 from extensions import db
 from datetime import datetime, timedelta
 from flask_cors import cross_origin
@@ -22,6 +23,7 @@ def atualizar_ordem_servico_route(app):
         prazo_desktop_str = data.get('prazo_desktop')
         id_tecnico = data.get('id_tecnico')
         id_status = data.get('id_status')
+        observacao_texto = data.get('observacao')
 
         if wo_projeto:
             ordem.wo_projeto = wo_projeto
@@ -45,6 +47,14 @@ def atualizar_ordem_servico_route(app):
                 ordem.prazo_tecnico = prazo_desktop - timedelta(days=5)
             except ValueError:
                 return jsonify({'error': 'Formato de data inválido para prazo_desktop (esperado YYYY-MM-DD)'}), 400
+
+        # ✅ Atualizar ou criar observação
+        if observacao_texto is not None:
+            if ordem.observacoes:
+                ordem.observacoes[0].observacao = observacao_texto
+            else:
+                nova_obs = Observacao(observacao=observacao_texto, id_ordem=ordem.id)
+                db.session.add(nova_obs)
 
         try:
             db.session.commit()

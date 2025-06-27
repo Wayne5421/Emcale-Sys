@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from models.ordem_servico import OrdemServico
+from models.observacao import Observacao
 from extensions import db
 from datetime import datetime, timedelta
 
@@ -13,9 +14,10 @@ def criar_ordem_servico_route(app):
         regional = data.get('regional')
         escopo = data.get('escopo')
         premissas = data.get('premissas')
-        prazo_desktop_str = data.get('prazo_desktop')  # nome atualizado
+        prazo_desktop_str = data.get('prazo_desktop')
         id_tecnico = data.get('id_tecnico')
         id_status = data.get('id_status')
+        observacao_texto = data.get('observacao')
 
         if not wo_projeto or not prazo_desktop_str:
             return jsonify({'error': 'WO/Projeto e prazo_desktop são obrigatórios'}), 400
@@ -37,6 +39,15 @@ def criar_ordem_servico_route(app):
             )
 
             db.session.add(nova_ordem)
+            db.session.flush()  
+
+            if observacao_texto:
+                nova_observacao = Observacao(
+                    observacao=observacao_texto,
+                    id_ordem=nova_ordem.id
+                )
+                db.session.add(nova_observacao)
+
             db.session.commit()
 
             return jsonify({'message': f'Ordem {wo_projeto} criada com sucesso!'}), 201

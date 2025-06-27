@@ -42,7 +42,8 @@ export class OrdensComponent implements OnInit {
     prazo_desktop: new Date(),
     prazo_tecnico: new Date(),
     id_status: null, 
-    id_tecnico: null
+    id_tecnico: null,
+    observacao: ''
   };
 
   permissaoLogada: string = '';

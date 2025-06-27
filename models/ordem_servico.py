@@ -1,8 +1,5 @@
 from extensions import db
 
-# Importar Status somente dentro do método para evitar circularidade:
-# (Ou importe Status fora do arquivo se não causar problema)
-
 class OrdemServico(db.Model):
     __tablename__ = 'ordens_servico'
 
@@ -19,9 +16,8 @@ class OrdemServico(db.Model):
     id_tecnico = db.Column(db.Integer, db.ForeignKey('tecnicos.id'))
     id_status = db.Column(db.Integer, db.ForeignKey('status.id'))
 
-    # Importação tardia aqui para evitar erro:
-    # Você pode usar uma string com o nome da classe dentro do relationship
     status = db.relationship('Status', backref='ordens_servico')
+
 
     def __repr__(self):
         return f'<OrdemServico {self.wo_projeto}>'
