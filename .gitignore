@@ -421,9 +421,6 @@ security.txt
 vulnerability-report.json
 audit-report.json
 
-static/browser
-
-static/
 
 frontend/.angular/
 
