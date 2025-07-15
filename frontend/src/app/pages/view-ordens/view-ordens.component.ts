@@ -55,6 +55,7 @@ export class ViewOrdens implements OnInit {
 
   mostrarModalObservacao: boolean = false;
   ordemSelecionada: any = null;
+  ordemMateriais: any = null;
 
   @ViewChild(MatSort) sort!: MatSort
 
@@ -375,8 +376,16 @@ abrirModalObservacao(ordem: any) {
   this.ordemSelecionada = ordem;
 }
 
+abrirModalMateriais(ordem: any) {
+  this.ordemMateriais = ordem;
+}
+
 fecharModalObservacao() {
   this.ordemSelecionada = null;
+}
+
+fecharModalMateriais() {
+  this.ordemMateriais = null;
 }
 
   getSortIcon(column: string): string {

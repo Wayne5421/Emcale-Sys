@@ -1,6 +1,7 @@
 from flask import jsonify
 from models.ordem_servico import OrdemServico
 from models.tecnico import Tecnico  
+from models.materiais import Material
 from extensions import db
 
 def listar_ordens_servico_route(app):
@@ -26,7 +27,8 @@ def listar_ordens_servico_route(app):
                 'nome_tecnico': ordem.tecnico.nome if ordem.tecnico else None,
                 'id_status': ordem.id_status,
                 'descricao_status': ordem.status.descricao if ordem.status else None,
-                'observacao': ordem.observacoes[0].observacao if ordem.observacoes else None  # 👈 aqui
+                'observacao': ordem.observacoes[0].observacao if ordem.observacoes else None,
+                'materiais': ordem.materiais[0].material   if ordem.materiais   else None
             })
 
         return jsonify({'ordens_servico': lista}), 200

@@ -43,7 +43,8 @@ export class OrdensComponent implements OnInit {
     prazo_tecnico: new Date(),
     id_status: null, 
     id_tecnico: null,
-    observacao: ''
+    observacao: '',
+    materiais: '',
   };
 
   permissaoLogada: string = '';
@@ -124,20 +125,19 @@ export class OrdensComponent implements OnInit {
 
   filterAndSortOrdens(): void {
     let filtered = this.ordens;
-
     if (this.searchTerm) {
       const termo = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(ordem =>
-        (ordem.wo_projeto?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.cidade?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.regional?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.escopo?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.premissas?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.nome_tecnico?.toLowerCase().includes(termo) ?? false) ||
-        (ordem.descricao_status?.toLowerCase().includes(termo) ?? false)
+      filtered = filtered.filter(o =>
+        (o.wo_projeto?.toLowerCase().includes(termo) ?? false) ||
+        (o.cidade?.toLowerCase().includes(termo) ?? false) ||
+        (o.regional?.toLowerCase().includes(termo) ?? false) ||
+        (o.escopo?.toLowerCase().includes(termo) ?? false) ||
+        (o.premissas?.toLowerCase().includes(termo) ?? false) ||
+        (o.materiais?.toLowerCase().includes(termo) ?? false) ||   
+        (o.nome_tecnico?.toLowerCase().includes(termo) ?? false) ||
+        (o.descricao_status?.toLowerCase().includes(termo) ?? false)
       );
     }
-
     this.filteredOrdens = filtered;
   }
 
@@ -227,7 +227,8 @@ export class OrdensComponent implements OnInit {
       prazo_desktop: new Date(),
       prazo_tecnico: new Date(),
       id_status: this.statusList.length > 0 ? this.statusList[0].id : null, 
-      id_tecnico: null
+      id_tecnico: null,
+      materiais: '',  
     };
     this.mostrarModalCriar = true;
   }

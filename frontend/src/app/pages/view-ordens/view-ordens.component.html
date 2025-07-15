@@ -197,13 +197,27 @@
               class="border-b border-zinc-700/30 hover:bg-zinc-800/50 transition-all duration-300 animate-fade-in"
               [ngClass]="getRowClass(ordem)">
 
-<td class="p-3">
+
+
+<td class="p-3 flex items-center gap-2">
+
   <button (click)="abrirModalObservacao(ordem)"
           class="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors"
           title="Ver Observação">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M15 12H9m6 4H9m12 2a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V18z" />
+            d="M15 12H9m6 4H9m12 2a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V18z"/>
+    </svg>
+  </button>
+
+
+  <button (click)="abrirModalMateriais(ordem)"
+          class="w-6 h-6 text-cyan-400 hover:text-cyan-300 transition-colors"
+          title="Ver Materiais">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M14 3l7 7-4 4-7-7M2 22l5-5m6.5-6.5l-3 3M5 20l-3 3"/>
     </svg>
   </button>
 </td>
@@ -289,6 +303,34 @@
       </div>
     </div>
   </div>
+
+
+<div *ngIf="ordemMateriais"
+     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+     (click)="fecharModalMateriais()">
+  <div class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl
+              border border-cyan-600 shadow-2xl relative animate-fade-in"
+       (click)="$event.stopPropagation()">
+
+    <button (click)="fecharModalMateriais()"
+            class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
+      &times;
+    </button>
+
+    <h2 class="text-2xl font-bold text-cyan-400 mb-6 text-center">
+      Materiais da Ordem #{{ ordemMateriais.id }}
+    </h2>
+
+    <div class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed
+                max-h-[60vh] overflow-y-auto px-4">
+      {{ ordemMateriais.materiais || 'Nenhum material informado.' }}
+    </div>
+
+  </div>
+</div>
+
+
+
 
 <div *ngIf="ordemSelecionada"
      class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"

@@ -45,6 +45,7 @@
       <p><strong>Prazo Técnico:</strong> {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yyyy') : '-' }}</p>
       <p><strong>Status:</strong> {{ ordem.descricao_status }}</p>
       <p><strong>Técnico:</strong> {{ ordem.nome_tecnico || 'Não Atribuído' }}</p>
+      <p><strong>Materiais:</strong> {{ ordem.materiais || '-' }}</p>
 
       <p>
         <strong>Faltam:</strong>
@@ -127,6 +128,11 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Materiais Utilizados</mat-label>
+        <textarea matInput [(ngModel)]="ordemSelecionada.materiais" name="materiais_edit"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
         <mat-label>Técnico</mat-label>
         <mat-select [(ngModel)]="ordemSelecionada.id_tecnico" name="id_tecnico_edit">
           <mat-option [value]="null">Nenhum Técnico</mat-option>
@@ -206,6 +212,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Materiais Utilizados</mat-label>
+        <textarea matInput [(ngModel)]="novaOrdem.materiais" name="materiais_new"></textarea>
+      </mat-form-field>
+
+
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Técnico</mat-label>
