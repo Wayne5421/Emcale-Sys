@@ -12,6 +12,7 @@ class OrdemServico(db.Model):
     data_abertura = db.Column(db.Date, default=db.func.current_date())
     prazo_desktop = db.Column(db.Date)
     prazo_tecnico = db.Column(db.Date)
+    data_entrega = db.Column(db.Date)
 
     id_tecnico = db.Column(db.Integer, db.ForeignKey('tecnicos.id'))
     id_status = db.Column(db.Integer, db.ForeignKey('status.id'))

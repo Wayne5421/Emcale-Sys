@@ -19,6 +19,9 @@ export class ThemeService {
     this.dark = !this.dark;
     localStorage.setItem('theme', this.dark ? 'dark' : 'light');
     this.apply();
+
+    // dispara evento global para notificar componentes
+    window.dispatchEvent(new CustomEvent('theme-changed', { detail: this.dark }));
   }
 
   /** Força um tema específico (opcional) */

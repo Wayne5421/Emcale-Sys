@@ -11,7 +11,9 @@
       <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
         <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
           <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+            </path>
           </svg>
         </div>
         <div>
@@ -35,7 +37,8 @@
       <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
         <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
           <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
         <div>
@@ -47,7 +50,9 @@
       <div class="bg-black/30 backdrop-blur-xl rounded-xl border border-zinc-800/50 p-4 flex items-center gap-3">
         <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
           <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z">
+            </path>
           </svg>
         </div>
         <div>
@@ -62,14 +67,14 @@
         <div>
           <label class="block text-sm font-medium text-zinc-300 mb-2">Buscar Ordem</label>
           <input [(ngModel)]="searchTerm" (input)="onSearchChange()" (keyup)="onSearchChange()"
-                 placeholder="Projeto, cidade, regional, escopo, técnico..."
-                 class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+            placeholder="Projeto, cidade, regional, escopo, técnico..."
+            class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-zinc-300 mb-2">Filtrar por Status</label>
           <select [(ngModel)]="selectedStatus" (change)="applyFilter()"
-                  class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+            class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
             <option value="">Todos os Status</option>
             <option *ngFor="let status of statusList" [value]="status.descricao">{{ status.descricao }}</option>
           </select>
@@ -78,7 +83,7 @@
         <div>
           <label class="block text-sm font-medium text-zinc-300 mb-2">Filtrar por Técnico</label>
           <select [(ngModel)]="selectedTecnico" (change)="applyFilter()"
-                  class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
+            class="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all duration-300">
             <option value="">Todos os Técnicos</option>
             <option *ngFor="let tecnico of tecnicos" [value]="tecnico.nome">{{ tecnico.nome }}</option>
           </select>
@@ -96,171 +101,204 @@
           <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded">Atenção</span>
           <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded">No Prazo</span>
         </div>
-      </div>
 
-      
-    <div class="bg-black/30 backdrop-blur-xl rounded-2xl border border-zinc-800/50 shadow-2xl overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full min-w-max">
-          <thead>
-          <tr class="bg-zinc-800/50 border-b border-zinc-700/50">
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-12">
-              <input type="checkbox"
-                     [checked]="isAllSelected()"
-                     [indeterminate]="isIndeterminate()"
-                     (change)="toggleAllSelection()"
-                     class="w-4 h-4 text-yellow-500 bg-zinc-800 border-zinc-600 rounded focus:ring-yellow-500 focus:ring-2">
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-16 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+
+  <div class="flex gap-3">
+  <button (click)="exportarParaPDF()"
+    class="flex items-center gap-1 bg-red-600 hover:bg-red-500 active:scale-95 shadow-md text-white font-medium text-sm px-3 py-1.5 rounded transition-transform duration-150 ease-in-out">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 11V3m0 0L8 7m4-4l4 4m-6 8h6m-3 0v6m-4 0h8a2 2 0 002-2V7.414a2 2 0 00-.586-1.414l-4.414-4.414A2 2 0 0014.586 1H6a2 2 0 00-2 2v16a2 2 0 002 2z">
+      </path>
+    </svg>
+    pdf
+  </button>
+
+  <button (click)="exportarParaExcel()"
+    class="flex items-center gap-1 bg-green-600 hover:bg-green-500 active:scale-95 shadow-md text-white font-medium text-sm px-3 py-1.5 rounded transition-transform duration-150 ease-in-out">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 11V3m0 0L8 7m4-4l4 4m-6 8h6m-3 0v6m-4 0h8a2 2 0 002-2V7.414a2 2 0 00-.586-1.414l-4.414-4.414A2 2 0 0014.586 1H6a2 2 0 00-2 2v16a2 2 0 002 2z">
+      </path>
+    </svg>
+    excel
+  </button>
+  </div>
+</div>
+
+
+      <div class="bg-black/30 backdrop-blur-xl rounded-2xl border border-zinc-800/50 shadow-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-max">
+            <thead>
+              <tr class="bg-zinc-800/50 border-b border-zinc-700/50">
+                <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-12">
+
+                </th>
+                <!-- <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-16 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
                 (click)="sortData('id')">
               <div class="flex items-center gap-1">
                 ID
                 <span class="text-yellow-400 font-bold">{{ getSortIcon('id') }}</span>
               </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('wo_projeto')">
-              <div class="flex items-center gap-1">
-                Projeto
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('wo_projeto') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('cidade')">
-              <div class="flex items-center gap-1">
-                Cidade
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('cidade') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('regional')">
-              <div class="flex items-center gap-1">
-                Regional
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('regional') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('escopo')">
-              <div class="flex items-center gap-1">
-                Escopo
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('escopo') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32">Premissas</th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('data_abertura')">
-              <div class="flex items-center gap-1">
-                Abertura
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('data_abertura') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('prazo_desktop')">
-              <div class="flex items-center gap-1">
-                Prazo Desktop
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_desktop') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('prazo_tecnico')">
-              <div class="flex items-center gap-1">
-                Prazo Técnico
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_tecnico') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('descricao_status')">
-              <div class="flex items-center gap-1">
-                Status
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('descricao_status') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('nome_tecnico')">
-              <div class="flex items-center gap-1">
-                Técnico
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('nome_tecnico') }}</span>
-              </div>
-            </th>
-            <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-20 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
-                (click)="sortData('dias_restantes')">
-              <div class="flex items-center gap-1">
-                Restam
-                <span class="text-yellow-400 font-bold">{{ getSortIcon('dias_restantes') }}</span>
-              </div>
-            </th>
-          </tr>
-          </thead>
+            </th> -->
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('wo_projeto')">
+                  <div class="flex items-center gap-1">
+                    Projeto
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('wo_projeto') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('cidade')">
+                  <div class="flex items-center gap-1">
+                    Cidade
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('cidade') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('regional')">
+                  <div class="flex items-center gap-1">
+                    Regional
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('regional') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('escopo')">
+                  <div class="flex items-center gap-1">
+                    Escopo
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('escopo') }}</span>
+                  </div>
+                </th>
+                <th class="text-left p-3 text-sm font-semibold text-zinc-300 w-32">Premissas</th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('data_abertura')">
+                  <div class="flex items-center gap-1">
+                    Abertura
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('data_abertura') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('prazo_desktop')">
+                  <div class="flex items-center gap-1">
+                    Prazo Desktop
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_desktop') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-24 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('prazo_tecnico')">
+                  <div class="flex items-center gap-1">
+                    Prazo Técnico
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('prazo_tecnico') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('descricao_status')">
+                  <div class="flex items-center gap-1">
+                    Status
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('descricao_status') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-28 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('nome_tecnico')">
+                  <div class="flex items-center gap-1">
+                    Técnico
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('nome_tecnico') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-20 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('dias_restantes')">
+                  <div class="flex items-center gap-1">
+                    Restam
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('dias_restantes') }}</span>
+                  </div>
+                </th>
+                <th
+                  class="text-left p-3 text-sm font-semibold text-zinc-300 w-32 cursor-pointer hover:bg-zinc-700/30 transition-colors duration-200 select-none"
+                  (click)="sortData('data_entrega')">
+                  <div class="flex items-center gap-1">
+                    Finalizada em
+                    <span class="text-yellow-400 font-bold">{{ getSortIcon('data_entrega') }}</span>
+                  </div>
+                </th>
+              </tr>
 
-          <tbody class="max-h-96 overflow-y-auto">
-          <tr *ngFor="let ordem of filteredOrdens; trackBy: trackByFn"
-              class="border-b border-zinc-700/30 hover:bg-zinc-800/50 transition-all duration-300 animate-fade-in"
-              [ngClass]="getRowClass(ordem)">
+
+            </thead>
+
+            <tbody class="max-h-96 overflow-y-auto">
+              <tr *ngFor="let ordem of paginatedOrdens; trackBy: trackByFn"
+                class="border-b border-zinc-700/30 hover:bg-zinc-800/50 transition-all duration-300 animate-fade-in"
+                [ngClass]="getRowClass(ordem)">
 
 
 
-<td class="p-3 flex items-center gap-2">
+                <td class="p-3 flex items-center gap-2">
 
-  <button (click)="abrirModalObservacao(ordem)"
-          class="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors"
-          title="Ver Observação">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M15 12H9m6 4H9m12 2a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V18z"/>
-    </svg>
-  </button>
+                  <button (click)="abrirModalObservacao(ordem)"
+                    class="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" title="Ver Observação">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12H9m6 4H9m12 2a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V18z" />
+                    </svg>
+                  </button>
+
+                  <button (click)="abrirModalMateriais(ordem)"
+                    class="w-6 h-6 text-white hover:text-zinc-300 transition-colors" title="Ver Materiais">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12V9a3 3 0 00-6 0v3M6 21h12a2 2 0 002-2v-7H4v7a2 2 0 002 2z" />
+                    </svg>
+                  </button>
 
 
-  <button (click)="abrirModalMateriais(ordem)"
-          class="w-6 h-6 text-cyan-400 hover:text-cyan-300 transition-colors"
-          title="Ver Materiais">
+                </td>
 
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M14 3l7 7-4 4-7-7M2 22l5-5m6.5-6.5l-3 3M5 20l-3 3"/>
-    </svg>
-  </button>
-</td>
 
-            <td class="p-3 text-zinc-400 font-mono text-sm">
-              #{{ ordem.id }}
-            </td>
+                <td class="p-3 text-white font-medium text-sm" [title]="ordem.wo_projeto">
+                  <div class="truncate max-w-32">{{ ordem.wo_projeto }}</div>
+                </td>
 
-            <td class="p-3 text-white font-medium text-sm" [title]="ordem.wo_projeto">
-              <div class="truncate max-w-32">{{ ordem.wo_projeto }}</div>
-            </td>
+                <td class="p-3 text-zinc-300 text-sm" [title]="ordem.cidade">
+                  <div class="truncate max-w-24">{{ ordem.cidade }}</div>
+                </td>
 
-            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.cidade">
-              <div class="truncate max-w-24">{{ ordem.cidade }}</div>
-            </td>
+                <td class="p-3 text-zinc-300 text-sm" [title]="ordem.regional">
+                  <div class="truncate max-w-24">{{ ordem.regional }}</div>
+                </td>
 
-            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.regional">
-              <div class="truncate max-w-24">{{ ordem.regional }}</div>
-            </td>
+                <td class="p-3 text-zinc-300 text-sm" [title]="ordem.escopo">
+                  <div class="truncate max-w-32">{{ ordem.escopo }}</div>
+                </td>
 
-            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.escopo">
-              <div class="truncate max-w-32">{{ ordem.escopo }}</div>
-            </td>
+                <td class="p-3 text-zinc-300 text-sm" [title]="ordem.premissas">
+                  <div class="truncate max-w-32">{{ ordem.premissas || '-' }}</div>
+                </td>
 
-            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.premissas">
-              <div class="truncate max-w-32">{{ ordem.premissas || '-' }}</div>
-            </td>
+                <td class="p-3 text-zinc-400 text-sm">
+                  {{ ordem.data_abertura | date: 'dd/MM/yy' }}
+                </td>
 
-            <td class="p-3 text-zinc-400 text-sm">
-              {{ ordem.data_abertura | date: 'dd/MM/yy' }}
-            </td>
+                <td class="p-3 text-zinc-400 text-sm">
+                  {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yy') : '-' }}
+                </td>
 
-            <td class="p-3 text-zinc-400 text-sm">
-              {{ ordem.prazo_desktop ? (ordem.prazo_desktop | date: 'dd/MM/yy') : '-' }}
-            </td>
+                <td class="p-3 text-zinc-400 text-sm">
+                  {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yy') : '-' }}
+                </td>
 
-            <td class="p-3 text-zinc-400 text-sm">
-              {{ ordem.prazo_tecnico ? (ordem.prazo_tecnico | date: 'dd/MM/yy') : '-' }}
-            </td>
-
-            <td class="p-3" [ngClass]="getStatusCellClass(ordem.descricao_status)">
-                <span class="px-3 py-1 rounded text-xs font-medium whitespace-nowrap"
-                      [ngClass]="{
+                <td class="p-3" [ngClass]="getStatusCellClass(ordem.descricao_status)">
+                  <span class="px-3 py-1 rounded text-xs font-medium whitespace-nowrap" [ngClass]="{
                         'bg-green-600 text-white': ordem.descricao_status.toLowerCase() === 'fechada',
                         'bg-red-600 text-white': ordem.descricao_status.toLowerCase() === 'cancelado',
                         'bg-yellow-600 text-black': ordem.descricao_status.toLowerCase() === 'aguardando',
@@ -268,94 +306,171 @@
                         'bg-orange-600 text-white': ordem.descricao_status.toLowerCase() === 'aberta',
                         'bg-gray-600 text-white': !['fechada', 'cancelado', 'aguardando', 'em andamento', 'aberta'].includes(ordem.descricao_status.toLowerCase())
                       }">
-                  {{ ordem.descricao_status }}
-                </span>
-            </td>
+                    {{ ordem.descricao_status }}
+                  </span>
+                </td>
 
-            <td class="p-3 text-zinc-300 text-sm" [title]="ordem.nome_tecnico">
-              <div class="truncate max-w-28">{{ ordem.nome_tecnico }}</div>
-            </td>
+                <td class="p-3 text-zinc-300 text-sm" [title]="ordem.nome_tecnico">
+                  <div class="truncate max-w-28">{{ ordem.nome_tecnico }}</div>
+                </td>
 
-            <td class="p-3">
-                <span class="px-2 py-1 rounded text-xs font-medium whitespace-nowrap"
-                      [ngClass]="{
+                <td class="p-3">
+                  <span class="px-2 py-1 rounded text-xs font-medium whitespace-nowrap" [ngClass]="{
                         'bg-red-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'red',
                         'bg-yellow-600 text-black': getDiasRestantesColor(ordem.dias_restantes) === 'yellow',
                         'bg-green-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'green',
                         'bg-gray-600 text-white': getDiasRestantesColor(ordem.dias_restantes) === 'gray'
                       }">
-                  {{ typeof ordem.dias_restantes === 'number' ? ordem.dias_restantes + 'd' : ordem.dias_restantes }}
-                </span>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+                    {{ typeof ordem.dias_restantes === 'number' ? ordem.dias_restantes + 'd' : ordem.dias_restantes }}
+                  </span>
+                </td>
 
-      <div *ngIf="filteredOrdens.length === 0" class="text-center py-16">
-        <div class="w-24 h-24 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-12 h-12 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
+
+
+
+
+
+                <td class="p-3 text-zinc-300 text-sm">
+                  <div *ngIf="!ordem.modoEdicaoDataEntrega">
+                    <div *ngIf="!ordem.modoEdicaoDataEntrega">
+                      <button (click)="ordem.modoEdicaoDataEntrega = true"
+                        class="text-yellow-400 hover:text-yellow-300 text-sm">
+                        {{ ordem.data_entrega ? (ordem.data_entrega | date: 'dd/MM/yy') : '+' }}
+                      </button>
+
+                    </div>
+                    <ng-template #adicionarData>
+                      <button (click)="ordem.modoEdicaoDataEntrega = true"
+                        class="bg-zinc-800 hover:bg-zinc-700 text-yellow-400 px-2 py-1 rounded text-sm">
+                        +
+                      </button>
+                    </ng-template>
+                  </div>
+                  <div *ngIf="ordem.modoEdicaoDataEntrega">
+                    <input type="date" [(ngModel)]="ordem.novaDataEntrega"
+                      class="bg-zinc-900 border border-zinc-700 text-white rounded px-2 py-1 text-sm w-full mb-1" />
+
+                    <div class="flex gap-2">
+                      <button (click)="salvarDataEntrega(ordem)"
+                        class="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded">
+                        Salvar
+                      </button>
+                      <button (click)="cancelarEdicaoDataEntrega(ordem)"
+                        class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded">
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </tr>
+
+
+
+
+
+
+
+            </tbody>
+          </table>
+
+
+          <div class="flex justify-center mt-6 mb-4 gap-2 text-sm text-zinc-400">
+            <button class="px-3 py-1 rounded bg-zinc-800 hover:bg-zinc-700 transition" [disabled]="currentPage === 1"
+              (click)="irParaPaginaAnterior()">
+              ← Anterior
+            </button>
+
+            <span class="px-3 py-1">{{ currentPage }} / {{ totalPages }}</span>
+
+            <button class="px-3 py-1 rounded bg-zinc-800 hover:bg-zinc-700 transition"
+              [disabled]="currentPage === totalPages" (click)="irParaProximaPagina()">
+              Próxima →
+            </button>
+          </div>
+
+
         </div>
-        <h3 class="text-xl font-semibold text-zinc-400 mb-2">Nenhuma ordem encontrada</h3>
-        <p class="text-zinc-500">Tente ajustar os filtros de busca</p>
+
+        <div *ngIf="filteredOrdens.length === 0" class="text-center py-16">
+          <div class="w-24 h-24 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-12 h-12 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-zinc-400 mb-2">Nenhuma ordem encontrada</h3>
+          <p class="text-zinc-500">Tente ajustar os filtros de busca</p>
+        </div>
       </div>
     </div>
-  </div>
 
 
-<div *ngIf="ordemMateriais"
-     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-     (click)="fecharModalMateriais()">
-  <div class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl
-              border border-cyan-600 shadow-2xl relative animate-fade-in"
-       (click)="$event.stopPropagation()">
+    <div *ngIf="ordemMateriais" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+      (click)="fecharModalMateriais()">
+      <div class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl
+              border border-white/20 shadow-2xl relative animate-fade-in" (click)="$event.stopPropagation()">
 
-    <button (click)="fecharModalMateriais()"
-            class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
-      &times;
-    </button>
+        <button (click)="fecharModalMateriais()"
+          class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
+          &times;
+        </button>
 
-    <h2 class="text-2xl font-bold text-cyan-400 mb-6 text-center">
-      Materiais da Ordem #{{ ordemMateriais.id }}
-    </h2>
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+          Materiais da Ordem #{{ ordemMateriais.id }}
+        </h2>
 
-    <div class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed
+        <div class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed
                 max-h-[60vh] overflow-y-auto px-4">
-      {{ ordemMateriais.materiais || 'Nenhum material informado.' }}
+          {{ ordemMateriais.materiais || 'Nenhum material informado.' }}
+        </div>
+
+      </div>
     </div>
 
-  </div>
-</div>
 
 
 
+    <div *ngIf="ordemSelecionada" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+      (click)="fecharModalObservacao()">
 
-<div *ngIf="ordemSelecionada"
-     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-     (click)="fecharModalObservacao()">
-  
 
-  <div class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl border border-yellow-600 shadow-2xl relative animate-fade-in"
-       (click)="$event.stopPropagation()">
+      <div
+        class="bg-gradient-to-br from-zinc-800 via-zinc-900 to-black rounded-2xl p-10 w-[90%] max-w-3xl border border-yellow-600 shadow-2xl relative animate-fade-in"
+        (click)="$event.stopPropagation()">
 
-    <button (click)="fecharModalObservacao()"
-            class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
-      &times;
-    </button>
+        <button (click)="fecharModalObservacao()"
+          class="absolute top-4 right-4 text-zinc-400 hover:text-white text-3xl font-bold">
+          &times;
+        </button>
 
-    <h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
-      Observação da Ordem #{{ ordemSelecionada.id }}
-    </h2>
+        <h2 class="text-2xl font-bold text-yellow-400 mb-6 text-center">
+          Observação da Ordem #{{ ordemSelecionada.id }}
+        </h2>
 
-    <div class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto px-4">
-      {{ ordemSelecionada.observacao || 'Nenhuma observação disponível.' }}
+        <div
+          class="text-center text-lg text-zinc-300 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto px-4">
+          {{ ordemSelecionada.observacao || 'Nenhuma observação disponível.' }}
+        </div>
+
+      </div>
     </div>
 
+
+
   </div>
-</div>
-
-
-
-</div>

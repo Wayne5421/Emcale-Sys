@@ -14,13 +14,20 @@ export class LayoutComponent {
   nome = localStorage.getItem('nome_completo') || '';
   permissao = localStorage.getItem('permissao') || '';
 
-  constructor(private router: Router) {
-    this.isDarkMode = localStorage.getItem('theme') === 'dark';
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.isDarkMode = localStorage.getItem('theme') === 'dark';      }
-    });
-  }
+constructor(private router: Router) {
+  this.isDarkMode = localStorage.getItem('theme') === 'dark';
+
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      this.isDarkMode = localStorage.getItem('theme') === 'dark';
+    }
+  });
+
+  window.addEventListener('theme-changed', (event: Event) => {
+    const customEvent = event as CustomEvent;
+    this.isDarkMode = customEvent.detail;
+  });
+}
 
   logout() {
     localStorage.clear();

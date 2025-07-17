@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 from routes.atualizar_usuario import atualizar_usuario_route
 from routes.deletar_usuario import deletar_usuario_route
+from routes.listar_permissoes import listar_permissoes_route
 from routes.listar_status import listar_status_route
 from routes.login import login_routes
 from routes.criar_usuario import criar_usuario_route
@@ -53,6 +54,7 @@ atualizar_ordem_servico_route(app)
 deletar_ordem_servico_route(app)
 listar_ordens_servico_route(app)
 listar_status_route(app)
+listar_permissoes_route(app)
 
 
 if __name__ == "__main__":

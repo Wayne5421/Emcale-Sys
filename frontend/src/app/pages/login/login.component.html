@@ -25,7 +25,7 @@
     <div
       class="h-full w-full rounded-4xl overflow-hidden bg-gradient-to-b transition-all duration-700"
       [ngClass]="{ 
-        'from-yellow-400 via-yellow-500 to-yellow-600': !isDark, 
+        'from-green-400 via-green-500 to-green-600': !isDark, 
         'from-red-600 via-red-700 to-red-800': isDark 
       }"
     >
@@ -38,7 +38,7 @@
         <ul class="w-full max-w-md space-y-4">
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10">
             <span
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-white font-bold text-yellow-600"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-white font-bold text-black"
             >
               1
             </span>
@@ -47,7 +47,7 @@
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10 opacity-80">
             <span
               class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 font-bold"
-              [ngClass]="{ 'text-yellow-600': !isDark, 'text-white': isDark }"
+              [ngClass]="{ 'text-black': !isDark, 'text-white': isDark }"
             >
               2
             </span>
@@ -56,7 +56,7 @@
           <li class="flex items-center gap-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm border border-white/10 opacity-80">
             <span
               class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 font-bold"
-              [ngClass]="{ 'text-yellow-600': !isDark, 'text-white': isDark }"
+              [ngClass]="{ 'text-black': !isDark, 'text-white': isDark }"
             >
               3
             </span>

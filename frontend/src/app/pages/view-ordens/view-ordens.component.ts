@@ -11,6 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError, forkJoin } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-view-ordens',
@@ -44,6 +48,7 @@ export class ViewOrdens implements OnInit {
     "descricao_status",
     "nome_tecnico",
     "dias_restantes",
+    "data_entrega"
   ]
 
   dataSource = new MatTableDataSource<any>([])
@@ -56,6 +61,22 @@ export class ViewOrdens implements OnInit {
   mostrarModalObservacao: boolean = false;
   ordemSelecionada: any = null;
   ordemMateriais: any = null;
+
+  currentPage = 1
+  itemsPerPage = 25
+
+  irParaPaginaAnterior(): void {
+  if (this.currentPage > 1) {
+    this.currentPage--
+  }
+}
+
+irParaProximaPagina(): void {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++
+  }
+}
+
 
   @ViewChild(MatSort) sort!: MatSort
 
@@ -87,6 +108,74 @@ export class ViewOrdens implements OnInit {
     })
   }
 
+
+exportarParaExcel(): void {
+  const dadosParaExportar = this.filteredOrdens.map(ordem => ({
+    Projeto: ordem.wo_projeto,
+    Cidade: ordem.cidade,
+    Regional: ordem.regional,
+    Escopo: ordem.escopo,
+    Premissas: ordem.premissas || '-',
+    Abertura: this.datePipe.transform(ordem.data_abertura, 'dd/MM/yyyy'),
+    'Prazo Desktop': ordem.prazo_desktop ? this.datePipe.transform(ordem.prazo_desktop, 'dd/MM/yyyy') : '-',
+    'Prazo Técnico': ordem.prazo_tecnico ? this.datePipe.transform(ordem.prazo_tecnico, 'dd/MM/yyyy') : '-',
+    Status: ordem.descricao_status,
+    Técnico: ordem.nome_tecnico,
+    'Dias Restantes': ordem.dias_restantes,
+    'Data Entrega': ordem.data_entrega ? this.datePipe.transform(ordem.data_entrega, 'dd/MM/yyyy') : '-',
+  }));
+
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dadosParaExportar);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Ordens');
+
+  const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(data, 'ordens-servico.xlsx');
+}
+
+
+
+exportarParaPDF(): void {
+  const doc = new jsPDF();
+
+  const dadosParaExportar = this.filteredOrdens.map(ordem => [
+    ordem.wo_projeto,
+    ordem.cidade,
+    ordem.regional,
+    ordem.escopo,
+    ordem.premissas || '-',
+    this.datePipe.transform(ordem.data_abertura, 'dd/MM/yyyy'),
+    ordem.prazo_desktop ? this.datePipe.transform(ordem.prazo_desktop, 'dd/MM/yyyy') : '-',
+    ordem.prazo_tecnico ? this.datePipe.transform(ordem.prazo_tecnico, 'dd/MM/yyyy') : '-',
+    ordem.descricao_status,
+    ordem.nome_tecnico,
+    typeof ordem.dias_restantes === 'number' ? ordem.dias_restantes + 'd' : ordem.dias_restantes,
+    ordem.data_entrega ? this.datePipe.transform(ordem.data_entrega, 'dd/MM/yyyy') : '-',
+  ]);
+
+  autoTable(doc, {
+    head: [[
+      'Projeto', 'Cidade', 'Regional', 'Escopo', 'Premissas', 'Abertura',
+      'Prazo Desktop', 'Prazo Técnico', 'Status', 'Técnico', 'Restam', 'Entrega'
+    ]],
+    body: dadosParaExportar,
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    headStyles: {
+      fillColor: [55, 65, 81], // cinza escuro
+      textColor: [255, 255, 255],
+    },
+  });
+
+  doc.save('ordens-servico.pdf');
+}
+
+
+
+
   carregarStatus(token: string) {
     return this.dataService.listarStatus(token).pipe(
       tap((response) => {
@@ -111,6 +200,67 @@ export class ViewOrdens implements OnInit {
     )
   }
 
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredOrdens.length / this.itemsPerPage)
+  }
+
+  get paginatedOrdens(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage
+    return this.filteredOrdens.slice(start, start + this.itemsPerPage)
+  }
+
+
+salvarDataEntrega(ordem: any): void {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  const dataEntregaStr = ordem.novaDataEntrega;
+  if (!dataEntregaStr) return;
+
+  const dataEntregaCorrigida = new Date(`${dataEntregaStr}T12:00:00`);
+
+  const statusFechada = this.statusList.find(status => status.descricao.toLowerCase() === 'fechada');
+  const idStatusFechada = statusFechada ? statusFechada.id : ordem.id_status;
+
+  const payload = {
+    data_entrega: this.datePipe.transform(dataEntregaCorrigida, 'yyyy-MM-dd'),
+    prazo_desktop: ordem.prazo_desktop
+      ? this.datePipe.transform(ordem.prazo_desktop, 'yyyy-MM-dd')
+      : null,
+    prazo_tecnico: ordem.prazo_tecnico
+      ? this.datePipe.transform(ordem.prazo_tecnico, 'yyyy-MM-dd')
+      : null,
+    id_tecnico: ordem.id_tecnico,
+    id_status: idStatusFechada,  
+  };
+
+  this.dataService.atualizarOrdem(ordem.id, payload, token).subscribe({
+    next: () => {
+      ordem.data_entrega = dataEntregaCorrigida;
+      ordem.modoEdicaoDataEntrega = false;
+      ordem.novaDataEntrega = null;
+
+      if (statusFechada) {
+        ordem.descricao_status = statusFechada.descricao;
+        ordem.id_status = statusFechada.id;
+      }
+    },
+    error: (err) => {
+      console.error("Erro ao salvar data de entrega:", err);
+    }
+  });
+}
+
+
+
+cancelarEdicaoDataEntrega(ordem: any): void {
+  ordem.modoEdicaoDataEntrega = false;
+  ordem.novaDataEntrega = null;
+}
+
+
+
   carregarOrdens(token: string): void {
     this.dataService.listarOrdens(token).subscribe({
       next: (response) => {
@@ -128,6 +278,10 @@ export class ViewOrdens implements OnInit {
             dias_restantes: ordem.prazo_desktop
               ? this.calcularDiasRestantes(ordem.prazo_desktop, ordem.id_status)
               : "N/A",
+
+            data_entrega: ordem.data_entrega ? new Date(ordem.data_entrega) : null,
+            modoEdicaoDataEntrega: false,
+            novaDataEntrega: null,
           }
         })
 
@@ -199,6 +353,7 @@ export class ViewOrdens implements OnInit {
 
   onSearchChange(): void {
     this.applyFilter()
+    this.currentPage = 1
   }
 
   applyFilter(): void {

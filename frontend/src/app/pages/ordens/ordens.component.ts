@@ -32,6 +32,10 @@ export class OrdensComponent implements OnInit {
   mostrarModalEditar: boolean = false;
   mostrarModalCriar: boolean = false;
 
+
+  currentPage: number = 1;
+  pageSize: number = 15;
+
   novaOrdem: any = {
     wo_projeto: '',
     cidade: '',
@@ -69,6 +73,34 @@ export class OrdensComponent implements OnInit {
       });
     });
   }
+
+  get paginatedOrdens(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredOrdens.slice(start, end);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredOrdens.length / this.pageSize);
+  }
+
+
+irParaPagina(pagina: number): void {
+  if (pagina < 1 || pagina > this.totalPages) return;
+
+  this.currentPage = pagina;
+
+  setTimeout(() => {
+    const elemento = document.getElementById('ordens-lista');
+    if (elemento) {
+      elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 0);
+}
+
+
+
+
 
   carregarStatus(token: string): any { 
     return this.dataService.listarStatus(token).pipe(

@@ -17,6 +17,7 @@ def criar_ordem_servico_route(app):
         escopo            = data.get('escopo')
         premissas         = data.get('premissas')
         prazo_desktop_str = data.get('prazo_desktop')
+        data_entrega_str  = data.get('data_entrega')
         id_tecnico        = data.get('id_tecnico')
         id_status         = data.get('id_status')
         observacao_texto  = data.get('observacao')
@@ -26,19 +27,24 @@ def criar_ordem_servico_route(app):
             return jsonify({'error': 'WO/Projeto e prazo_desktop são obrigatórios'}), 400
 
         try:
-            prazo_desktop  = datetime.strptime(prazo_desktop_str, '%Y-%m-%d').date()
-            prazo_tecnico  = prazo_desktop - timedelta(days=5)
+            prazo_desktop = datetime.strptime(prazo_desktop_str, '%Y-%m-%d').date()
+            prazo_tecnico = prazo_desktop - timedelta(days=5)
+
+            data_entrega = None
+            if data_entrega_str:
+                data_entrega = datetime.strptime(data_entrega_str, '%Y-%m-%d').date()
 
             nova_ordem = OrdemServico(
-                wo_projeto = wo_projeto,
-                cidade = cidade,
-                regional = regional,
-                escopo = escopo,
-                premissas = premissas,
-                prazo_desktop = prazo_desktop,
-                prazo_tecnico = prazo_tecnico,
-                id_tecnico = id_tecnico,
-                id_status = id_status
+                wo_projeto     = wo_projeto,
+                cidade         = cidade,
+                regional       = regional,
+                escopo         = escopo,
+                premissas      = premissas,
+                prazo_desktop  = prazo_desktop,
+                prazo_tecnico  = prazo_tecnico,
+                data_entrega   = data_entrega,  
+                id_tecnico     = id_tecnico,
+                id_status      = id_status
             )
 
             db.session.add(nova_ordem)
@@ -61,7 +67,7 @@ def criar_ordem_servico_route(app):
 
         except ValueError:
             db.session.rollback()
-            return jsonify({'error': 'Formato de data inválido para prazo_desktop (esperado YYYY-MM-DD)'}), 400
+            return jsonify({'error': 'Formato de data inválido para prazo_desktop ou data_entrega (esperado YYYY-MM-DD)'}), 400
         except Exception as e:
             db.session.rollback()
             return jsonify({'error': f'Erro ao criar ordem: {str(e)}'}), 500

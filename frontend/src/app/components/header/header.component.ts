@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
@@ -19,7 +19,7 @@ export class HeaderComponent {
   @ViewChild('searchInput') searchInput!: ElementRef;
 
 
-  constructor(public theme: ThemeService) {}
+  constructor(public theme: ThemeService, private cdRef: ChangeDetectorRef) {}
 
 
   get isDarkMode(): boolean {
@@ -61,9 +61,15 @@ export class HeaderComponent {
   }
 
   // captura Esc global para fechar busca
-  ngOnInit(): void {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.searchMode) this.closeSearch();
-    });
-  }
+ngOnInit(): void {
+  // já existente
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && this.searchMode) this.closeSearch();
+  });
+
+  // novo: escuta mudança de tema
+  window.addEventListener('theme-changed', () => {
+    this.cdRef.detectChanges(); // força atualização do Angular
+  });
+}
 }

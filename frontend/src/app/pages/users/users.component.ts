@@ -8,11 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule]
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, NgSelectModule]
 })
 export class UsersComponent implements OnInit {
   usuarios: any[] = [];
@@ -25,6 +27,9 @@ export class UsersComponent implements OnInit {
   mostrarModalCriar: boolean = false;
   novoUsuario: any = { nome_completo: '', usuario: '', senha: '', permissao: '' };
   permissaoLogada: string = '';
+
+
+  permissoesDisponiveis: string[] = [];
 
   constructor(
     private dataService: DataService,
@@ -54,6 +59,20 @@ ngOnInit(): void {
       console.error(error);
     }
   });
+
+
+this.dataService.listarPermissoes(token).subscribe({
+  next: (res) => {
+    this.permissoesDisponiveis = res.permissoes.map((p: { nome: any; }) => p.nome);
+  },
+  error: (err) => {
+    console.error('Erro ao carregar permissões:', err);
+  }
+});
+
+
+
+
 }
 
 
@@ -74,18 +93,21 @@ ngOnInit(): void {
     this.filteredUsers = filtered;
   }
 
-  formatPermission(permission: string): string {
-    switch (permission.toLowerCase()) {
-      case 'admin':
-        return 'Administrador';
-      case 'dev':
-        return 'Desenvolvedor';
-      case 'default':
-        return 'Padrão';
-      default:
-        return 'Desconhecida';
-    }
+formatPermission(permission: string): string {
+  switch (permission.toLowerCase()) {
+    case 'admin':
+      return 'Administrador';
+    case 'dev':
+      return 'Desenvolvedor';
+    case 'default':
+      return 'Padrão';
+    case 'financeiro':
+      return 'Financeiro';
+    default:
+
+      return permission.charAt(0).toUpperCase() + permission.slice(1);
   }
+}
 
   abrirModal(usuario: any): void {
     if (this.permissaoLogada === 'admin' || this.permissaoLogada === 'dev') {

@@ -3,8 +3,8 @@
   margin: 2rem auto;
   padding: 1.5rem;
   font-family: 'Segoe UI', sans-serif;
-  color: var(--text-color); 
-  background-color: var(--card-dark); 
+  color: var(--text-color);
+  background-color: var(--card-dark);
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
@@ -28,17 +28,17 @@ h2 {
 .search-field {
   flex-grow: 1;
   min-width: 250px;
-  color: var(--text-color); 
+  color: var(--text-color);
 }
 
 mat-form-field {
   width: 100%;
-  color: var(--text-color); 
+  color: var(--text-color);
 }
 
 .filters button {
-  background-color: var(--primary-color); 
-  color: var(--text-white); 
+  background-color: var(--primary-color);
+  color: var(--text-white);
   border: none;
   padding: 0.8rem 1.2rem;
   border-radius: 6px;
@@ -48,7 +48,7 @@ mat-form-field {
 }
 
 .filters button:hover {
-  background-color: var(--primary-hover); 
+  background-color: var(--primary-hover);
 }
 
 .orders-grid {
@@ -58,8 +58,8 @@ mat-form-field {
 }
 
 .order-card {
-  background-color: var(--card-dark); 
-  border: 1px solid var(--card-border); 
+  background-color: var(--card-dark);
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -80,18 +80,18 @@ mat-form-field {
   margin-top: 0;
   font-size: 1.3rem;
   margin-bottom: 1rem;
-  color: var(--text-white); 
+  color: var(--text-white);
 }
 
 .order-card p {
   margin: 0.4rem 0;
   font-size: 0.95rem;
-  color: var(--text-grey); 
+  color: var(--text-grey);
   line-height: 1.4;
 }
 
 .order-card strong {
-  color: var(--primary-color); 
+  color: var(--primary-color);
 }
 
 .card-actions {
@@ -103,8 +103,8 @@ mat-form-field {
 
 .update-button,
 .delete-button {
-  background-color: var(--success-color); 
-  color: var(--text-white); 
+  background-color: var(--success-color);
+  color: var(--text-white);
   border: none;
   padding: 0.6rem 1rem;
   border-radius: 6px;
@@ -117,7 +117,7 @@ mat-form-field {
 }
 
 .delete-button {
-  background-color: var(--alert-red); 
+  background-color: var(--alert-red);
 }
 
 .update-button img,
@@ -132,7 +132,7 @@ mat-form-field {
 }
 
 .delete-button:hover {
-  background-color: var(--alert-hover); 
+  background-color: var(--alert-hover);
 }
 
 
@@ -141,6 +141,7 @@ mat-form-field {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -161,98 +162,104 @@ mat-form-field {
 }
 
 .modal {
-  background: var(--modal-bg); 
+  background: var(--card-dark);
   padding: 2rem;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  color: var(--text-white); 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  max-height: 80vh; 
-  overflow-y: auto; 
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 600px;
+  color: var(--text-white);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: fadeInUp 0.4s ease-in-out;
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(8px);
 }
 
 .modal h2 {
-  color: var(--primary-color); 
-  margin-top: 0;
+  color: var(--primary-color);
+  font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  font-size: 1.6rem;
-  text-align: left;
-}
-
-.modal mat-form-field {
-  width: 100%;
-  margin-bottom: 1.2rem;
-  color: var(--text-color); 
-}
-
-.modal mat-form-field label {
-  color: var(--text-grey); 
+  font-weight: 600;
 }
 
 .modal-actions {
-  margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 0.75rem;
+  margin-top: 2rem;
 }
 
 .modal-actions button {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
 .modal-actions button[color="primary"] {
   background-color: var(--success-color);
-  color: var(--text-white); 
+  color: var(--text-white);
 }
 
 .modal-actions button[color="primary"]:hover {
-  background-color: var(--success-hover); 
+  background-color: var(--success-hover);
 }
 
 .modal-actions button[color="warn"] {
-  background-color: var(--alert-red); 
-  color: var(--text-white); 
+  background-color: var(--alert-red);
+  color: var(--text-white);
 }
 
 .modal-actions button[color="warn"]:hover {
   background-color: var(--alert-hover);
 }
 
+.modal ::ng-deep input,
+.modal ::ng-deep textarea,
+.modal ::ng-deep mat-select {
+  color: var(--text-white);
+  background-color: transparent;
+  border-color: var(--card-border);
+}
+
+.modal ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.modal ::ng-deep .mat-form-field-label {
+  color: var(--text-grey);
+}
+
 .error {
-  color: var(--alert-red); 
+  color: var(--alert-red);
   margin-top: 1.5rem;
   text-align: center;
 }
 
 .order-card.proximo-do-prazo {
-  background-color: #ffdddd; 
+  background-color: #ffdddd;
   border-color: #ffaaaa;
 }
 
 .order-card.proximo-do-prazo h3,
 .order-card.proximo-do-prazo p,
 .order-card.proximo-do-prazo strong {
-  color: #333; 
+  color: #333;
 }
 
 .mat-select-panel {
-  background-color: var(--card-dark) !important; 
+  background-color: var(--card-dark) !important;
   color: var(--text-color) !important;
 }
 
 .mat-option {
-  color: var(--text-color) !important; 
+  color: var(--text-color) !important;
 }
 
 .mat-option:hover {
-  background-color: var(--option-hover) !important; 
+  background-color: var(--option-hover) !important;
 }
 
 
@@ -261,20 +268,32 @@ mat-form-field {
   color: var(--text-color) !important;
 }
 
-
-
-
-.prazo-critico {
-  border: 2px solid var(--alert-red); 
-  animation: blink-border 1s infinite;
+.critical-dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--alert-red);
+  border-radius: 50%;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  box-shadow: 0 0 0 rgba(244, 67, 54, 0.7);
+  animation: pulse-dot 1.5s infinite;
 }
 
-@keyframes blink-border {
-  0%, 100% {
-    border-color: var(--alert-red);
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.6);
+    transform: scale(1);
   }
-  50% {
-    border-color: transparent;
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(244, 67, 54, 0);
+    transform: scale(1.2);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+    transform: scale(1);
   }
 }
 
@@ -286,7 +305,7 @@ mat-form-field {
 }
 
 ::ng-deep .mat-calendar-body-cell-content {
-  color: var(--text-white); 
+  color: var(--text-white);
 }
 
 ::ng-deep .mat-calendar-body-selected {
@@ -295,14 +314,11 @@ mat-form-field {
 }
 
 ::ng-deep .mat-calendar-arrow {
-  color: var(--text-white); 
+  color: var(--text-white);
 }
 
 ::ng-deep .mat-calendar-period-button,
 ::ng-deep .mat-calendar-previous-button,
 ::ng-deep .mat-calendar-next-button {
- color: var(--text-white); 
+  color: var(--text-white);
 }
-
-
-

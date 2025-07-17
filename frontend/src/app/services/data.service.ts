@@ -29,6 +29,11 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}/listar-status`, { headers });
   }
 
+  listarPermissoes(token: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/listar-permissoes`, { headers });
+  }
+
 
   atualizarUsuario(id: number, dados: any, token: string) {
     return this.http.put<any>(`${this.apiUrl}/atualizar-usuario/${id}`, dados, {
